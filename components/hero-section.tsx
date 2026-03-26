@@ -1,11 +1,40 @@
-"use client";
+"use client"
 
-import Image from "next/image";
+import Image from "next/image"
+
+function BotanicalAccent({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 120 280"
+      aria-hidden="true"
+      className={`h-auto w-full ${className}`}
+      fill="none"
+    >
+      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+        <path
+          d="M59 274C51 234 55 191 63 148C69 117 72 92 61 54C55 34 47 20 35 6"
+          strokeWidth="1.4"
+        />
+        <path d="M63 152C81 136 93 119 98 96" strokeWidth="1" />
+        <path d="M60 131C42 118 30 105 25 86" strokeWidth="1" />
+        <path d="M72 94C85 85 95 72 100 58" strokeWidth="1" />
+        <path d="M53 82C40 74 31 63 26 48" strokeWidth="1" />
+        <path d="M98 94C85 90 75 93 67 103" strokeWidth="0.9" />
+        <path d="M24 85C36 82 47 86 56 95" strokeWidth="0.9" />
+        <path d="M99 57C88 54 80 57 73 66" strokeWidth="0.9" />
+        <path d="M27 47C37 45 45 49 51 57" strokeWidth="0.9" />
+      </g>
+    </svg>
+  )
+}
 
 export function HeroSection() {
   return (
-    <section className="hero" aria-label="Wedding invitation hero">
-      <div className="hero__photo-wrap" aria-hidden="true">
+    <section
+      aria-label="Головний екран весільного запрошення"
+      className="relative min-h-svh overflow-hidden bg-[#b6cdea]"
+    >
+      <div className="absolute inset-0 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-1000">
         <Image
           src="/IMG_8529.jpg"
           alt=""
@@ -13,221 +42,37 @@ export function HeroSection() {
           priority
           quality={100}
           sizes="100vw"
-          className="hero__photo"
+          className="object-cover object-[56%_center] will-change-transform md:object-center motion-safe:scale-[1.02]"
         />
-        <div className="hero__shade" />
+
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(80,101,132,0.14)_0%,rgba(99,122,154,0.12)_28%,rgba(244,241,236,0.2)_54%,rgba(235,239,246,0.82)_100%),radial-gradient(90%_80%_at_50%_46%,rgba(255,255,255,0)_34%,rgba(137,164,198,0.2)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-[clamp(11rem,28svh,20rem)] bg-[linear-gradient(180deg,rgba(239,243,249,0)_0%,rgba(239,243,249,0.14)_24%,rgba(239,243,249,0.46)_50%,rgba(239,243,249,0.84)_76%,#edf3fb_100%)]" />
       </div>
 
-      <div className="hero__content">
-        <div className="hero__top">
-          <h1 className="hero__couple">
+      <div className="pointer-events-none absolute bottom-[clamp(5rem,10svh,8rem)] left-[clamp(1rem,4vw,3rem)] z-[1] w-[min(22vw,12rem)] text-[#f6f3ee]/25">
+        <BotanicalAccent />
+      </div>
+      <div className="pointer-events-none absolute bottom-[clamp(5rem,10svh,8rem)] right-[clamp(1rem,4vw,3rem)] z-[1] w-[min(22vw,12rem)] scale-x-[-1] text-[#f6f3ee]/25">
+        <BotanicalAccent />
+      </div>
+
+      <div className="relative z-[2] flex min-h-svh flex-col justify-between px-4 pt-[1.3rem] pb-8 text-center text-[#f7f4ee] md:px-8 md:pt-8 md:pb-[2.6rem]">
+        <div className="grid gap-2 pt-[clamp(5.4rem,16svh,10rem)] motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700 md:pt-[clamp(6.4rem,15svh,12rem)]">
+          <h1 className="m-0 inline-flex items-baseline justify-center gap-[0.45rem] font-display text-[clamp(3.4rem,15.8vw,6.2rem)] leading-[0.96] font-normal italic tracking-[-0.02em] text-[#fdfbf7] [text-shadow:0_10px_28px_rgba(0,0,0,0.58)] md:gap-[0.7rem] md:text-[clamp(5rem,10.5vw,8.2rem)]">
             <span>Vitalii</span>
-            <span className="hero__and">&amp;</span>
+            <span className="inline-block translate-y-[-0.04em] text-[clamp(1.2rem,5vw,1.75rem)] leading-none text-[#a8c4e8]">
+              &amp;
+            </span>
             <span>Tetiana</span>
           </h1>
         </div>
 
-        <div className="hero__bottom">
-          <p className="hero__meta">11 07 2026 · LVIV</p>
+        <div className="relative z-[1] grid gap-2 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700 motion-safe:delay-200">
+          <p className="m-0 font-sans text-[clamp(0.82rem,3.7vw,1rem)] font-medium tracking-[0.22em] text-[#f9f7f2] [text-shadow:0_2px_18px_rgba(86,109,140,0.28)] md:text-[clamp(0.95rem,1.4vw,1.15rem)]">
+            11 07 2026 · LVIV
+          </p>
         </div>
       </div>
-
-      <style>{`
-        .hero {
-          --ivory: #f7f1e8;
-          --gold: #f2cf95;
-          --name: #fffaf0;
-
-          position: relative;
-          min-height: 100svh;
-          overflow: hidden;
-          background: #e6dfd5;
-        }
-
-        .hero__photo-wrap {
-          position: absolute;
-          inset: 0;
-          animation: revealMask 1.4s cubic-bezier(0.2, 0.9, 0.2, 1) both;
-        }
-
-        .hero__photo {
-          object-fit: cover;
-          object-position: 56% center;
-          animation:
-            photoFadeIn 1.8s cubic-bezier(0.22, 1, 0.36, 1) both,
-            photoDrift 18s ease-in-out 1.4s infinite alternate;
-          will-change: transform;
-          transform-origin: center;
-        }
-
-        .hero__shade {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-              to bottom,
-              rgba(12, 10, 8, 0.3) 0%,
-              rgba(12, 10, 8, 0.18) 32%,
-              rgba(12, 10, 8, 0.44) 100%
-            ),
-            radial-gradient(
-              90% 80% at 50% 50%,
-              rgba(0, 0, 0, 0) 38%,
-              rgba(0, 0, 0, 0.22) 100%
-            );
-        }
-
-        .hero__content {
-          position: relative;
-          z-index: 2;
-          min-height: 100svh;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          padding: 1.3rem 1rem 2rem;
-          color: var(--ivory);
-          text-align: center;
-        }
-
-        .hero__top {
-          display: grid;
-          gap: 0.4rem;
-          padding-top: clamp(5.4rem, 16svh, 10rem);
-          animation: riseIn 1s 0.45s both;
-        }
-
-        .hero__couple {
-          display: inline-flex;
-          align-items: baseline;
-          justify-content: center;
-          gap: 0.45rem;
-          margin: 0;
-          font-family: var(--font-display), "Cormorant Garamond", serif;
-          font-weight: 400;
-          font-style: italic;
-          font-size: clamp(3.4rem, 15.8vw, 6.2rem);
-          letter-spacing: -0.02em;
-          line-height: 0.96;
-          color: var(--name);
-          text-shadow: 0 10px 28px rgba(0, 0, 0, 0.58);
-        }
-
-        .hero__and {
-          display: inline-block;
-          color: var(--gold);
-          font-size: clamp(1.2rem, 5vw, 1.75rem);
-          line-height: 1;
-          transform: translateY(-0.04em);
-        }
-
-        .hero__bottom {
-          display: grid;
-          gap: 0.38rem;
-          animation: riseIn 1s 0.9s both;
-        }
-
-        .hero__meta {
-          margin: 0;
-          font-family: var(--font-sans), "Jost", sans-serif;
-          letter-spacing: 0.22em;
-          font-size: clamp(0.82rem, 3.7vw, 1rem);
-          font-weight: 500;
-          text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
-        }
-
-        .hero__scroll-text {
-          margin: 0;
-          font-family: var(--font-sans), "Jost", sans-serif;
-          font-size: 0.6rem;
-          letter-spacing: 0.19em;
-          opacity: 0.94;
-          text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-        }
-
-        @keyframes revealMask {
-          from {
-            clip-path: inset(0 0 100% 0);
-          }
-          to {
-            clip-path: inset(0 0 0 0);
-          }
-        }
-
-        @keyframes photoFadeIn {
-          from {
-            opacity: 0;
-            filter: brightness(0.84) saturate(0.94);
-            transform: scale(1.05);
-          }
-          to {
-            opacity: 1;
-            filter: brightness(1) saturate(1);
-            transform: scale(1);
-          }
-        }
-
-        @keyframes photoDrift {
-          0% {
-            transform: scale(1.01) translateY(0);
-          }
-          100% {
-            transform: scale(1.03) translateY(-1.1%);
-          }
-        }
-
-        @keyframes riseIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (min-width: 700px) {
-          .hero__photo {
-            object-position: center center;
-          }
-
-          .hero__content {
-            padding: 2rem 2rem 2.6rem;
-          }
-
-          .hero__top {
-            gap: 0.8rem;
-            padding-top: clamp(6.4rem, 15svh, 12rem);
-          }
-
-          .hero__couple {
-            font-size: clamp(5rem, 10.5vw, 8.2rem);
-            gap: 0.7rem;
-          }
-
-          .hero__bottom {
-            gap: 0.5rem;
-          }
-
-          .hero__meta {
-            font-size: clamp(0.95rem, 1.4vw, 1.15rem);
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .hero__photo-wrap,
-          .hero__photo,
-          .hero__shade,
-          .hero__top,
-          .hero__bottom,
-          .hero__couple {
-            animation: none !important;
-          }
-
-          .hero__photo-wrap {
-            clip-path: inset(0 0 0 0);
-          }
-        }
-      `}</style>
     </section>
-  );
+  )
 }

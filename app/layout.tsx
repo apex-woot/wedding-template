@@ -1,8 +1,9 @@
-import { Cormorant_Garamond, Jost, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Geist_Mono, Nunito_Sans } from "next/font/google"
 
-import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { cn } from "@/lib/utils";
+import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
@@ -10,39 +11,41 @@ const cormorant = Cormorant_Garamond({
   style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
-});
+})
 
-const jost = Jost({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
+const nunitoSans = Nunito_Sans({
+  subsets: ["latin", "latin-ext"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-sans",
   display: "swap",
-});
+})
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-});
+})
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html
-      lang="en"
+      lang="uk"
       suppressHydrationWarning
       className={cn(
-        "antialiased",
+        "font-sans antialiased",
         fontMono.variable,
         cormorant.variable,
-        jost.variable,
+        nunitoSans.variable
       )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
