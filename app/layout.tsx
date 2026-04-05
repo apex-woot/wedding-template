@@ -1,13 +1,13 @@
-import { Cormorant_Garamond, Geist_Mono, Nunito_Sans } from "next/font/google"
+import { Playfair_Display, Geist_Mono, Nunito_Sans } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "600"],
+const playfair = Playfair_Display({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
@@ -37,7 +37,7 @@ export default function RootLayout({
       className={cn(
         "font-sans antialiased",
         fontMono.variable,
-        cormorant.variable,
+        playfair.variable,
         nunitoSans.variable
       )}
     >

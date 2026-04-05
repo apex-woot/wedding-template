@@ -1,48 +1,99 @@
+"use client"
+
+import { motion } from "framer-motion"
+
 const bookingUrl =
   "https://www.booking.com/hotel/ua/iavir-rezort.uk.html?chal_t=1772912905071&force_referer="
 
 const phoneHref = "tel:+380685981328"
 const phoneLabel = "+38 (068) 598 13 28"
 
+function AccommodationIcon() {
+  return (
+    <svg viewBox="0 0 64 64" aria-hidden="true" className="h-auto w-16 md:w-20" fill="none">
+      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 52V16a2 2 0 0 1 2-2h44a2 2 0 0 1 2 2v36" strokeWidth="1.4" />
+        <path d="M4 52h56" strokeWidth="1.4" />
+        <rect x="24" y="36" width="16" height="16" rx="1" strokeWidth="1.2" />
+        <path d="M32 36v16" strokeWidth="0.8" />
+        <rect x="18" y="20" width="8" height="8" rx="1" strokeWidth="1.1" />
+        <rect x="38" y="20" width="8" height="8" rx="1" strokeWidth="1.1" />
+        <path d="M32 6v8" strokeWidth="1" />
+        <path d="M28 8h8" strokeWidth="1" />
+      </g>
+    </svg>
+  )
+}
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } },
+}
+
 export function AccommodationSection() {
   return (
     <section
       aria-labelledby="accommodation-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#edf2f8_0%,#eef4fb_100%)] px-4 pt-[clamp(4.5rem,10vw,7rem)] pb-[clamp(5rem,12vw,8rem)]"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#EBE6DD_0%,#EDE8E0_100%)] px-4 pt-[clamp(4.5rem,10vw,7rem)] pb-[clamp(5rem,12vw,8rem)]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_22%,rgba(184,203,228,0.18),transparent_22%),radial-gradient(circle_at_84%_72%,rgba(221,228,237,0.38),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0))]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_22%,rgba(107,83,57,0.04),transparent_22%),radial-gradient(circle_at_84%_72%,rgba(180,168,150,0.1),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
 
-      <div className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#fffdfa]/90 px-5 pt-10 pb-12 text-center shadow-[0_24px_70px_rgba(134,154,188,0.14)] ring-1 ring-white/80 md:px-10 md:pt-14 md:pb-16">
-        <h2
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={containerVariants}
+        className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FAF7F2]/90 px-5 pt-10 pb-12 text-center shadow-[0_24px_70px_rgba(80,68,52,0.1)] ring-1 ring-white/60 md:px-10 md:pt-14 md:pb-16"
+      >
+        <motion.div variants={itemVariants} className="mx-auto mb-6 text-[#A09483]">
+          <AccommodationIcon />
+        </motion.div>
+
+        <motion.h2
+          variants={itemVariants}
           id="accommodation-title"
-          className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-light italic tracking-[-0.03em] text-[#88a9d2]"
+          className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#8FACC2]"
         >
           Проживання
-        </h2>
+        </motion.h2>
 
-        <p className="mx-auto mt-5 max-w-[34rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#6e7f98]">
+        <motion.p variants={itemVariants} className="mx-auto mt-5 max-w-[34rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#4E5D72]">
           У Yavir Resort доступне бронювання проживання. Ви можете зарезервувати
           номер телефоном або через Booking.com.
-        </p>
+        </motion.p>
 
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 md:mt-10 md:flex-row md:gap-4">
-          <a
+        <motion.div variants={itemVariants} className="mt-8 flex flex-col items-center justify-center gap-3 md:mt-10 md:flex-row md:gap-4">
+          <motion.a
             href={phoneHref}
-            className="inline-flex min-w-[14rem] items-center justify-center rounded-full bg-[#93b4dc] px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-white shadow-[0_18px_40px_rgba(124,150,191,0.28)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#88abd6]"
+            whileHover={{ y: -3, scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            className="inline-flex min-w-[14rem] items-center justify-center rounded-full bg-[#583C2A] px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-[#F5F0E8] shadow-[0_18px_40px_rgba(107,83,57,0.25)] transition-colors duration-300 hover:bg-[#5A4530]"
           >
             {phoneLabel}
-          </a>
+          </motion.a>
 
-          <a
+          <motion.a
             href={bookingUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex min-w-[14rem] items-center justify-center rounded-full border border-[#d7e3f2] bg-white px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-[#6e7f98] shadow-[0_12px_30px_rgba(119,142,177,0.12)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f8fbff]"
+            whileHover={{ y: -3, scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            className="inline-flex min-w-[14rem] items-center justify-center rounded-full border border-[#E8DCCB] bg-white px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-[#4E5D72] shadow-[0_12px_30px_rgba(80,68,52,0.08)] transition-colors duration-300 hover:bg-[#FAF7F2]"
           >
             Забронювати на Booking.com
-          </a>
-        </div>
-      </div>
+          </motion.a>
+        </motion.div>
+      </motion.div>
     </section>
   )
 }

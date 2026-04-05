@@ -126,7 +126,7 @@
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
-    background-color: oklch(0.985 0.005 85); /* Slightly warm cream for better contrast */
+    background-color: #F5F0E8;
   }
   
   body::after {
@@ -150,5 +150,15 @@
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background-color: rgba(88, 60, 42, 0.2);
+    color: #364274;
+  }
+
+  /* Smooth focus transitions for form elements */
+  input, textarea, select, button {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 }

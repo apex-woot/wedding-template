@@ -2,48 +2,52 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
 
-function BotanicalAccent({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 120 280"
-      aria-hidden="true"
-      className={`h-auto w-full ${className}`}
-      fill="none"
-    >
-      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-        <path
-          d="M59 274C51 234 55 191 63 148C69 117 72 92 61 54C55 34 47 20 35 6"
-          strokeWidth="1.4"
-        />
-        <path d="M63 152C81 136 93 119 98 96" strokeWidth="1" />
-        <path d="M60 131C42 118 30 105 25 86" strokeWidth="1" />
-        <path d="M72 94C85 85 95 72 100 58" strokeWidth="1" />
-        <path d="M53 82C40 74 31 63 26 48" strokeWidth="1" />
-        <path d="M98 94C85 90 75 93 67 103" strokeWidth="0.9" />
-        <path d="M24 85C36 82 47 86 56 95" strokeWidth="0.9" />
-        <path d="M99 57C88 54 80 57 73 66" strokeWidth="0.9" />
-        <path d="M27 47C37 45 45 49 51 57" strokeWidth="0.9" />
-      </g>
-    </svg>
-  )
+const WEDDING_DATE = new Date("2026-07-11T15:00:00+03:00")
+
+function useCountdown() {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+
+  useEffect(() => {
+    function calculate() {
+      const now = new Date()
+      const diff = Math.max(0, WEDDING_DATE.getTime() - now.getTime())
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      })
+    }
+
+    calculate()
+    const interval = setInterval(calculate, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return timeLeft
 }
 
 export function HeroSection() {
+  const countdown = useCountdown()
+
   return (
     <section
+      id="hero"
       aria-label="Головний екран весільного запрошення"
-      className="relative min-h-svh overflow-hidden bg-[#b6cdea]"
+      className="relative min-h-svh overflow-hidden bg-[#8FACC2]"
     >
-      <motion.div 
+      {/* Background photo with slow zoom */}
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
+        transition={{ duration: 2, ease: "easeOut" }}
         className="absolute inset-0"
       >
         <motion.div
-          animate={{ scale: [1, 1.05] }}
-          transition={{ duration: 25, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+          animate={{ scale: [1, 1.06] }}
+          transition={{ duration: 30, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
           className="absolute inset-0 w-full h-full"
         >
           <Image
@@ -57,78 +61,156 @@ export function HeroSection() {
           />
         </motion.div>
 
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(80,101,132,0.18)_0%,rgba(99,122,154,0.15)_28%,rgba(244,241,236,0.15)_54%,rgba(245,243,238,0.85)_100%),radial-gradient(90%_80%_at_50%_46%,rgba(255,255,255,0)_34%,rgba(137,164,198,0.25)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-[clamp(14rem,35svh,24rem)] bg-[linear-gradient(180deg,rgba(253,251,247,0)_0%,rgba(253,251,247,0.2)_24%,rgba(253,251,247,0.6)_50%,rgba(253,251,247,0.92)_76%,#fdfbf7_100%)]" />
+        {/* Cinematic overlay — warm espresso tones */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(35,30,25,0.5)_0%,rgba(55,48,40,0.35)_20%,rgba(90,78,65,0.15)_45%,rgba(235,228,218,0.7)_72%,rgba(245,240,232,0.95)_88%,#F5F0E8_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,transparent_40%,rgba(35,30,25,0.12)_100%)]" />
       </motion.div>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
-        className="pointer-events-none absolute bottom-[clamp(5rem,10svh,8rem)] left-[clamp(1rem,4vw,3rem)] z-[1] w-[min(22vw,12rem)] text-[#8a9db5]/30"
-      >
-        <BotanicalAccent />
-      </motion.div>
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.5, delay: 0.7, ease: "easeOut" }}
-        className="pointer-events-none absolute bottom-[clamp(5rem,10svh,8rem)] right-[clamp(1rem,4vw,3rem)] z-[1] w-[min(22vw,12rem)] scale-x-[-1] text-[#8a9db5]/30"
-      >
-        <BotanicalAccent />
-      </motion.div>
+      {/* Content layout */}
+      <div className="relative z-[2] flex min-h-svh flex-col px-[clamp(1.5rem,5vw,4rem)] md:px-[clamp(3rem,6vw,6rem)]">
 
-      <div className="relative z-[2] flex min-h-svh flex-col justify-between px-4 pt-[1.3rem] pb-8 text-center text-[#f7f4ee] md:px-8 md:pt-8 md:pb-[2.6rem]">
-        <div className="grid gap-2 pt-[clamp(5.4rem,16svh,10rem)] md:pt-[clamp(6.4rem,15svh,12rem)]">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="m-0 flex flex-col items-center justify-center font-display text-[clamp(4.2rem,16vw,7rem)] leading-[0.8] font-normal italic tracking-[-0.03em] text-[#fcfaf5] [text-shadow:0_12px_30px_rgba(0,0,0,0.4)] md:text-[clamp(6rem,12vw,9.5rem)]"
+        {/* Top — wedding invitation label */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
+          className="pt-[clamp(2.5rem,5svh,4rem)] text-center"
+        >
+          <p className="font-sans text-[0.6rem] font-medium uppercase tracking-[0.5em] text-white/45 md:text-[0.7rem]">
+            запрошення на весілля
+          </p>
+        </motion.div>
+
+        {/* Names — near the top */}
+        <div className="w-full mt-[clamp(1rem,3svh,2.5rem)]">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="w-full max-w-[56rem]"
           >
-            <motion.span 
-              initial={{ opacity: 0, x: -20 }}
+            {/* First name — left-aligned */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
-              className="mr-[1.5ch]"
+              transition={{ duration: 1.4, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="text-left"
             >
-              Vitalii
-            </motion.span>
-            <motion.span 
-              initial={{ opacity: 0, scale: 0.8 }}
+              <h1 className="font-display text-[clamp(4rem,15vw,9rem)] leading-[0.85] font-medium tracking-[-0.04em] text-white [text-shadow:0_4px_40px_rgba(0,0,0,0.35)] md:text-[clamp(6rem,11vw,10.5rem)]">
+                Віталій
+              </h1>
+            </motion.div>
+
+            {/* Connector — "та" with decorative lines */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
-              className="z-10 -my-[0.3em] font-sans text-[clamp(1.5rem,6vw,2.5rem)] font-light text-[#bcd4f0]"
+              transition={{ duration: 1, delay: 1, ease: "easeOut" }}
+              className="flex items-center justify-center gap-4 my-[clamp(0.6rem,2vw,1.2rem)] md:gap-6"
             >
-              &amp;
-            </motion.span>
-            <motion.span 
-              initial={{ opacity: 0, x: 20 }}
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 1.2, delay: 1.3, ease: [0.16, 1, 0.3, 1] }}
+                className="h-[1px] max-w-[6rem] bg-white/20 md:max-w-[10rem]"
+              />
+              <span className="shrink-0 font-display text-[clamp(1.4rem,4vw,2.2rem)] italic font-normal text-white/50">
+                та
+              </span>
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 1.2, delay: 1.3, ease: [0.16, 1, 0.3, 1] }}
+                className="h-[1px] max-w-[6rem] bg-white/20 md:max-w-[10rem]"
+              />
+            </motion.div>
+
+            {/* Second name — right-aligned */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
-              className="ml-[1.5ch]"
+              transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="text-right"
             >
-              Tetiana
-            </motion.span>
-          </motion.h1>
+              <h1 className="font-display text-[clamp(4rem,15vw,9rem)] leading-[0.85] font-medium tracking-[-0.04em] text-white [text-shadow:0_4px_40px_rgba(0,0,0,0.35)] md:text-[clamp(6rem,11vw,10.5rem)]">
+                Тетяна
+              </h1>
+            </motion.div>
+          </motion.div>
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 1.2, ease: "easeOut" }}
-          className="relative z-[1] grid gap-3"
-        >
-          <p className="m-0 font-sans text-[clamp(0.85rem,3.7vw,1.05rem)] font-medium tracking-[0.35em] text-[#4a5f7e] [text-shadow:0_1px_12px_rgba(255,255,255,0.8)] md:text-[clamp(0.95rem,1.4vw,1.15rem)] uppercase">
-            11 07 2026<span className="mx-3 opacity-50">·</span>Lviv
-          </p>
-          <motion.div 
-            initial={{ height: 0 }}
-            animate={{ height: "40px" }}
-            transition={{ duration: 1, delay: 1.8, ease: "easeInOut" }}
-            className="mx-auto w-[1px] bg-[#4a5f7e]/40 mt-2"
-          />
-        </motion.div>
+        {/* Bottom — Date, countdown, scroll indicator */}
+        <div className="mt-auto pb-[clamp(2rem,4svh,3.5rem)]">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 1.6, ease: "easeOut" }}
+            className="flex flex-col items-center gap-6"
+          >
+            {/* Date & location */}
+            <div className="flex items-center gap-3">
+              <div className="h-[1px] w-6 bg-[#583C2A]/30" />
+              <p className="font-sans text-[clamp(0.7rem,2vw,0.82rem)] font-medium uppercase tracking-[0.4em] text-[#364274] md:tracking-[0.5em]">
+                11 липня 2026
+                <span className="mx-[0.6em] text-[#583C2A]/40">/</span>
+                Львів
+              </p>
+              <div className="h-[1px] w-6 bg-[#583C2A]/30" />
+            </div>
+
+            {/* Countdown — minimal horizontal strip */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 2, ease: "easeOut" }}
+              className="flex items-baseline gap-[clamp(0.8rem,2.5vw,1.5rem)]"
+            >
+              {[
+                { value: countdown.days, label: "дн" },
+                { value: countdown.hours, label: "год" },
+                { value: countdown.minutes, label: "хв" },
+                { value: countdown.seconds, label: "сек" },
+              ].map((unit, i) => (
+                <div key={unit.label} className="flex items-baseline gap-1">
+                  {i > 0 && (
+                    <span className="mr-[clamp(0.6rem,2vw,1.2rem)] text-[0.6rem] text-[#583C2A]/25 select-none">
+                      :
+                    </span>
+                  )}
+                  <span className="font-display text-[clamp(1.1rem,3.5vw,1.6rem)] leading-none font-normal tabular-nums text-[#364274]/75">
+                    {String(unit.value).padStart(2, "0")}
+                  </span>
+                  <span className="font-sans text-[0.5rem] font-medium uppercase tracking-[0.15em] text-[#8FACC2]/50">
+                    {unit.label}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 2.6 }}
+              className="flex flex-col items-center gap-2 mt-1"
+            >
+              <motion.div
+                initial={{ height: 0 }}
+                animate={{ height: 24 }}
+                transition={{ duration: 1, delay: 2.8, ease: "easeInOut" }}
+                className="w-[1px] bg-[#583C2A]/25"
+              />
+              <motion.div
+                animate={{ y: [0, 5, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <svg width="12" height="8" viewBox="0 0 12 8" fill="none" className="text-[#583C2A]/30">
+                  <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   )
