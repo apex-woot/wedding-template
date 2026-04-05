@@ -27,7 +27,7 @@ export function LocationSection() {
     <section
       id="location"
       aria-labelledby="location-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#EDE8E0_0%,#EBE6DD_100%)] px-4 pt-[clamp(4.5rem,10vw,7rem)] pb-[clamp(5rem,12vw,8rem)]"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#EEEAE4_0%,#ECE8E2_100%)] px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(107,83,57,0.06),transparent_24%),radial-gradient(circle_at_88%_78%,rgba(180,168,150,0.15),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0))]" />
 
@@ -42,16 +42,16 @@ export function LocationSection() {
           <motion.h2
             variants={itemVariants}
             id="location-title"
-            className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#8FACC2]"
+            className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#364274]"
           >
             Локація
           </motion.h2>
-          <motion.p variants={itemVariants} className="mt-4 font-sans text-[clamp(1.05rem,2.8vw,1.3rem)] font-medium tracking-[0.08em] text-[#583C2A] uppercase">
-            Yavir Resort
+          <motion.p variants={itemVariants} className="mt-4 font-sans text-[clamp(0.85rem,2.2vw,1.05rem)] font-medium tracking-[0.12em] text-[#583C2A] uppercase">
+            Явір Резорт
           </motion.p>
           <motion.p variants={itemVariants} className="mt-4 text-balance font-sans text-[clamp(1rem,2.4vw,1.1rem)] leading-[1.8] text-[#4E5D72]">
-            Церемонія відбудеться в костелі святої Анни у Львові, а святкування
-            продовжиться в Yavir Resort.
+            Церемонія відбудеться в церкві Святої Анни у Львові, а святкування
+            продовжиться в Явір Резорт.
           </motion.p>
         </div>
 

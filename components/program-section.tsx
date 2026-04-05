@@ -4,33 +4,33 @@ import { motion } from "framer-motion"
 
 const programItems = [
   {
-    time: "15:00",
-    title: "Прибуття гостей",
-    details: "Вітальні напої та збір гостей",
+    time: "11:30",
+    title: "Шлюб",
+    details: "Церква Святої Анни, вул. Городоцька, 32",
+    icon: "rings",
+  },
+  {
+    time: "14:00",
+    title: "Прибуття гостей до локації",
+    details: "",
     icon: "pin",
   },
   {
     time: "15:30",
     title: "Церемонія",
-    details: "Наші обітниці та обручки",
-    icon: "rings",
-  },
-  {
-    time: "16:30",
-    title: "Фотосесія",
-    details: "Портрети та щирі миті",
+    details: "",
     icon: "camera",
   },
   {
-    time: "18:00",
-    title: "Весільна вечеря",
-    details: "Святкування в ресторані",
+    time: "16:00",
+    title: "Святковий банкет",
+    details: "",
     icon: "glasses",
   },
   {
-    time: "22:00",
+    time: "19:00",
     title: "Весільний торт",
-    details: "Солодкий фінал вечора",
+    details: "",
     icon: "cake",
   },
 ] as const
@@ -113,7 +113,7 @@ export function ProgramSection() {
     <section
       id="program"
       aria-labelledby="program-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#EDE8E0_0%,#EBE6DD_100%)] px-4 pt-[clamp(4.5rem,10vw,7rem)] pb-[clamp(5rem,12vw,8rem)]"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#EEEAE4_0%,#ECE8E2_100%)] px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[clamp(8rem,20svh,14rem)] bg-[linear-gradient(180deg,rgba(237,232,224,0.96)_0%,rgba(237,232,224,0.72)_30%,rgba(237,232,224,0.22)_66%,rgba(237,232,224,0)_100%)]" />
 
@@ -130,7 +130,7 @@ export function ProgramSection() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           id="program-title"
-          className="m-0 text-center font-display text-[clamp(2.9rem,8vw,4.8rem)] uppercase tracking-[0.08em] text-[#8FACC2]"
+          className="m-0 text-center font-display text-[clamp(2.9rem,8vw,4.8rem)] uppercase tracking-[0.08em] text-[#364274]"
         >
           Програма
         </motion.h2>
@@ -162,15 +162,17 @@ export function ProgramSection() {
                 </div>
 
                 <div className="text-left md:pl-4">
-                  <p className="m-0 font-display text-[clamp(2.2rem,5vw,3.4rem)] leading-none font-normal italic text-[#8FACC2] transition-colors duration-300 group-hover:text-[#364274]">
+                  <p className="m-0 font-display text-[clamp(2.2rem,5vw,3.4rem)] leading-none font-normal italic text-[#583C2A]/50 transition-colors duration-300 group-hover:text-[#364274]">
                     {item.time}
                   </p>
                   <h3 className="mt-2 mb-0 font-sans text-[1.2rem] leading-[1.35] font-light text-[#3D4A5A] md:text-[1.45rem]">
                     {item.title}
                   </h3>
-                  <p className="mt-1 mb-0 max-w-[22ch] font-sans text-[0.95rem] leading-[1.5] text-[#8B8478] md:text-[1rem]">
-                    {item.details}
-                  </p>
+                  {item.details && (
+                    <p className="mt-1 mb-0 max-w-[22ch] font-sans text-[0.95rem] leading-[1.5] text-[#8B8478] md:text-[1rem]">
+                      {item.details}
+                    </p>
+                  )}
                 </div>
               </motion.article>
             ))}

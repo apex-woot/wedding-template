@@ -18,8 +18,6 @@ function AccommodationIcon() {
         <path d="M32 36v16" strokeWidth="0.8" />
         <rect x="18" y="20" width="8" height="8" rx="1" strokeWidth="1.1" />
         <rect x="38" y="20" width="8" height="8" rx="1" strokeWidth="1.1" />
-        <path d="M32 6v8" strokeWidth="1" />
-        <path d="M28 8h8" strokeWidth="1" />
       </g>
     </svg>
   )
@@ -42,7 +40,7 @@ export function AccommodationSection() {
   return (
     <section
       aria-labelledby="accommodation-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#EBE6DD_0%,#EDE8E0_100%)] px-4 pt-[clamp(4.5rem,10vw,7rem)] pb-[clamp(5rem,12vw,8rem)]"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#ECE8E2_0%,#EEEAE4_100%)] px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_22%,rgba(107,83,57,0.04),transparent_22%),radial-gradient(circle_at_84%_72%,rgba(180,168,150,0.1),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
 
@@ -60,7 +58,7 @@ export function AccommodationSection() {
         <motion.h2
           variants={itemVariants}
           id="accommodation-title"
-          className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#8FACC2]"
+          className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#364274]"
         >
           Проживання
         </motion.h2>
@@ -76,7 +74,7 @@ export function AccommodationSection() {
             whileHover={{ y: -3, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="inline-flex min-w-[14rem] items-center justify-center rounded-full bg-[#583C2A] px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-[#F5F0E8] shadow-[0_18px_40px_rgba(107,83,57,0.25)] transition-colors duration-300 hover:bg-[#5A4530]"
+            className="inline-flex min-w-[14rem] items-center justify-center rounded-full bg-[#583C2A] px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-[#F2EEE8] shadow-[0_18px_40px_rgba(107,83,57,0.25)] transition-colors duration-300 hover:bg-[#5A4530]"
           >
             {phoneLabel}
           </motion.a>

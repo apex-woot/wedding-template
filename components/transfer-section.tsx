@@ -34,7 +34,7 @@ export function TransferSection() {
   return (
     <section
       aria-labelledby="transfer-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#EDE8E0_0%,#EBE6DD_100%)] px-4 pt-[clamp(4.5rem,10vw,7rem)] pb-[clamp(5rem,12vw,8rem)]"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#EEEAE4_0%,#ECE8E2_100%)] px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_24%,rgba(107,83,57,0.05),transparent_22%),radial-gradient(circle_at_82%_76%,rgba(180,168,150,0.12),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
 
@@ -52,19 +52,13 @@ export function TransferSection() {
         <motion.h2
           variants={itemVariants}
           id="transfer-title"
-          className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#8FACC2]"
+          className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#364274]"
         >
           Трансфер
         </motion.h2>
 
         <motion.p variants={itemVariants} className="mx-auto mt-5 max-w-[34rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#4E5D72]">
-          Буде організовано трансфер від костелу святої Анни у Львові до
-          ресторану та назад до Львова після святкування.
-        </motion.p>
-
-        <motion.p variants={itemVariants} className="mx-auto mt-4 max-w-[34rem] text-balance font-sans text-[clamp(0.98rem,2.4vw,1.08rem)] leading-[1.8] text-[#8B8478]">
-          Якщо ви захочете залишитися довше й не повертатися того ж вечора,
-          перегляньте розділ проживання, щоб забронювати номер у Yavir Resort.
+          Буде організовано трансфер від церкви Святої Анни до ресторану та назад до Львова після святкування.
         </motion.p>
       </motion.div>
     </section>

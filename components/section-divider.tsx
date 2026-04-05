@@ -25,7 +25,7 @@ function BotanicalSprig() {
 
 export function SectionDivider({ variant = "linen" }: { variant?: "linen" | "cream" }) {
   const color = variant === "cream" ? "text-[#C8BBA8]/35" : "text-[#C8BBA8]/30"
-  const bg = variant === "cream" ? "bg-[#F5F0E8]" : "bg-[#EDE8E0]"
+  const bg = variant === "cream" ? "bg-[#EEEAE4]" : "bg-[#EEEAE4]"
 
   return (
     <div className={`relative ${bg} flex items-center justify-center py-2 overflow-hidden`}>

@@ -79,7 +79,7 @@ export function RsvpSection() {
     <section
       id="rsvp"
       aria-labelledby="rsvp-title"
-      className="relative overflow-hidden bg-[#F5F0E8] px-4 pt-[clamp(6rem,12vw,10rem)] pb-[clamp(8rem,15vw,12rem)]"
+      className="relative overflow-hidden bg-[#F2EEE8] px-4 pt-[clamp(6rem,12vw,10rem)] pb-[clamp(8rem,15vw,12rem)]"
     >
       <div className="absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,#F3EEE5_0%,rgba(245,240,232,0)_100%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(107,83,57,0.04),transparent_40%)]" />
@@ -205,7 +205,7 @@ export function RsvpSection() {
                 >
                   <Button
                     type="submit"
-                    className="h-14 w-full md:w-auto min-w-[200px] rounded-none bg-[#364274] px-10 text-[0.8rem] font-normal uppercase tracking-[0.25em] text-[#F5F0E8] hover:bg-[#364274] transition-colors duration-500"
+                    className="h-14 w-full md:w-auto min-w-[200px] rounded-none bg-[#364274] px-10 text-[0.8rem] font-normal uppercase tracking-[0.25em] text-[#F2EEE8] hover:bg-[#364274] transition-colors duration-500"
                   >
                     Надіслати
                   </Button>

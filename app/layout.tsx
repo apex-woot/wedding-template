@@ -1,6 +1,14 @@
+import type { Viewport } from "next"
 import { Playfair_Display, Geist_Mono, Nunito_Sans } from "next/font/google"
 
 import "./globals.css"
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"

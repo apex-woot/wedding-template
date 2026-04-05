@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
 
 function GiftIcon() {
@@ -33,33 +34,45 @@ export function WeddingGiftsSection() {
   return (
     <section
       aria-labelledby="wedding-gifts-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#EDE8E0_0%,#EBE6DD_100%)] px-4 pt-[clamp(4.5rem,10vw,7rem)] pb-[clamp(5rem,12vw,8rem)]"
+      className="relative overflow-hidden px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_24%,rgba(107,83,57,0.05),transparent_22%),radial-gradient(circle_at_82%_76%,rgba(180,168,150,0.12),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
+      <div className="absolute inset-0">
+        <Image
+          src="/IMG_8383.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+          quality={85}
+        />
+        <div className="absolute inset-0 bg-[#2A2520]/40" />
+      </div>
 
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         variants={containerVariants}
-        className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FAF7F2]/90 px-5 pt-10 pb-12 text-center shadow-[0_24px_70px_rgba(80,68,52,0.1)] ring-1 ring-white/60 md:px-10 md:pt-14 md:pb-16"
+        className="relative z-[1] mx-auto max-w-[46rem] text-center"
       >
-        <motion.div variants={itemVariants} className="mx-auto mb-6 text-[#A09483]">
+        <motion.div variants={itemVariants} className="mx-auto mb-6 text-white/60">
           <GiftIcon />
         </motion.div>
 
         <motion.h2
           variants={itemVariants}
           id="wedding-gifts-title"
-          className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#8FACC2]"
+          className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-white"
         >
           Весільні подарунки
         </motion.h2>
 
-        <motion.p variants={itemVariants} className="mx-auto mt-5 max-w-[32rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#4E5D72]">
-          Ваша присутність на нашому весіллі - найбільший подарунок для нас.
-          Якщо ви захочете привітати нас подарунком, ми будемо вдячні за внесок
-          у наше спільне майбутнє.
+        <motion.p variants={itemVariants} className="mx-auto mt-5 max-w-[32rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-white/80">
+          Для нас найважливіше — це розділити з вами радість нашого дня.
+        </motion.p>
+
+        <motion.p variants={itemVariants} className="mx-auto mt-4 max-w-[32rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-white/80">
+          Якщо ви хочете нас підтримати, будемо раді грошовому подарунку, який допоможе здійснити наші спільні мрії.
         </motion.p>
       </motion.div>
     </section>
