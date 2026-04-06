@@ -66,7 +66,7 @@ export function LocationSection() {
               <img
                 src={venuePhotoUrl}
                 alt="Yavir Resort"
-                className="block w-full object-contain transition-transform duration-700 hover:scale-[1.03]"
+                className="block w-full object-contain md:max-h-[70svh] transition-transform duration-700 hover:scale-[1.03]"
                 loading="lazy"
               />
             </div>

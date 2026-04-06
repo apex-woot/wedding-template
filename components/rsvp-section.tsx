@@ -75,22 +75,35 @@ export function RsvpSection() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (!form.familySurname.trim()) return
     setSubmitting(true)
     setError(null)
 
     const supabase = createClient()
-    const { error: insertError } = await supabase.from("rsvp").insert({
-      family_surname: form.familySurname,
-      adults_count: form.adultsCount,
-      children_count: form.childrenCount,
-      attending: form.attending,
-      hotel_booking: form.hotelBooking,
-      transfer_needed: form.transferNeeded,
-      attending_church: form.attendingChurch,
+    const { data, error: rpcError } = await supabase.rpc("submit_rsvp", {
+      p_family_surname: form.familySurname.trim(),
+      p_adults_count: form.adultsCount,
+      p_children_count: form.childrenCount,
+      p_attending: form.attending,
+      p_hotel_booking: form.hotelBooking,
+      p_transfer_needed: form.transferNeeded,
+      p_attending_church: form.attendingChurch,
     })
 
     setSubmitting(false)
-    if (insertError) {
+    if (rpcError) {
+      setError("Щось пішло не так. Спробуйте ще раз.")
+      return
+    }
+    if (data === "duplicate") {
+      setError("Відповідь від цієї сім'ї вже була надіслана.")
+      return
+    }
+    if (data === "rate_limit") {
+      setError("Забагато запитів. Зачекайте хвилину та спробуйте знову.")
+      return
+    }
+    if (data === "error") {
       setError("Щось пішло не так. Спробуйте ще раз.")
       return
     }

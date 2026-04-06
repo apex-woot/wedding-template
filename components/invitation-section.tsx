@@ -32,7 +32,7 @@ export function InvitationSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             viewport={{ once: true, margin: "-100px" }}
-            className="relative z-[2] grid aspect-[0.7] w-full max-w-[24rem] place-items-center mb-12 md:mb-0"
+            className="relative z-[2] grid aspect-[0.7] w-full max-w-[24rem] md:max-h-[70svh] place-items-center mb-12 md:mb-0"
           >
             <motion.div
               whileHover={{ scale: 1.02 }}
