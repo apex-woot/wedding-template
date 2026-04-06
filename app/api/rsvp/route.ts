@@ -1,10 +1,12 @@
 import { createClient } from "@supabase/supabase-js"
 import { type NextRequest, NextResponse } from "next/server"
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
+  )
+}
 
 function sanitize(value: string): string {
   return value.trim().slice(0, 100)
@@ -31,7 +33,7 @@ export async function POST(request: NextRequest) {
     if (!isValidSurname(surname))
       return NextResponse.json({ error: "Некоректне прізвище." }, { status: 400 })
 
-    const { data, error } = await supabase.rpc("submit_rsvp", {
+    const { data, error } = await getSupabase().rpc("submit_rsvp", {
       p_family_surname: surname,
       p_adults_count: clampInt(body.adultsCount, 1, 20, 2),
       p_children_count: clampInt(body.childrenCount, 0, 20, 0),
