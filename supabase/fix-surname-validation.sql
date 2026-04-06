@@ -1,14 +1,3 @@
-revoke select on table rsvp from anon;
-
-create table if not exists rsvp_rate_limit (
-  ip text not null,
-  created_at timestamptz not null default now()
-);
-
-alter table rsvp_rate_limit enable row level security;
-
-create index if not exists idx_rsvp_rate_limit_ip_created on rsvp_rate_limit (ip, created_at);
-
 create or replace function submit_rsvp(
   p_family_surname text,
   p_adults_count smallint,

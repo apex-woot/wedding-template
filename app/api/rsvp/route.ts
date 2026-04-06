@@ -14,7 +14,7 @@ function sanitize(value: string): string {
 
 function isValidSurname(value: string): boolean {
   if (value.length < 2 || value.length > 100) return false
-  if (/[<>"';]/.test(value)) return false
+  if (/[<>";]/.test(value)) return false
   return true
 }
 
