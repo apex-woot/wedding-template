@@ -44,7 +44,7 @@ export function StoryCalendarSection() {
     <section
       id="date"
       aria-labelledby="date-story-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#F2EEE8_0%,#EEEAE4_100%)] px-4 py-[clamp(3.5rem,8vw,6rem)]"
+      className="min-h-[max(100svh,720px)] relative overflow-hidden bg-[#F7F6F2] px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
       <div className="relative z-[1] mx-auto max-w-[56rem]">
 
@@ -180,8 +180,8 @@ export function StoryCalendarSection() {
                       whileHover={isWeddingDay ? undefined : { scale: 1.15 }}
                       className={`grid h-[2.2rem] place-items-center rounded-full font-sans text-[0.85rem] transition-colors duration-200 ${
                         isWeddingDay
-                          ? "bg-[#583C2A] text-[#F2EEE8] font-semibold text-[0.9rem] shadow-[0_4px_20px_rgba(88,60,42,0.3)]"
-                          : "text-[#4E5D72] font-light hover:text-[#583C2A] hover:bg-[#E8DCCB]/50"
+                          ? "bg-[#583C2A] text-[#FAF9F6] font-semibold text-[0.9rem] shadow-[0_4px_20px_rgba(88,60,42,0.3)]"
+                          : "text-[#583C2A] font-light hover:text-[#583C2A] hover:bg-[#D8DED5]/50"
                       }`}
                     >
                       {day}

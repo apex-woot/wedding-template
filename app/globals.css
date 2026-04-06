@@ -126,7 +126,7 @@
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
-    background-color: #F2EEE8;
+    background-color: #F7F6F2;
   }
   
   body::after {

@@ -7,7 +7,7 @@ const dressCodeColors = [
   "#364274",
   "#583C2A",
   "#A8BCA1",
-  "#E8DCCB",
+  "#F7F6F2",
 ] as const
 
 const containerVariants = {
@@ -33,16 +33,16 @@ export function DressCodeSection() {
     <section
       id="dress-code"
       aria-labelledby="dress-code-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#ECE8E2_0%,#EEEAE4_100%)] px-4 py-[clamp(3.5rem,8vw,6rem)]"
+      className="min-h-[max(60svh,480px)] relative overflow-hidden bg-[#F7F6F2] px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_22%,rgba(107,83,57,0.06),transparent_22%),radial-gradient(circle_at_86%_72%,rgba(180,168,150,0.15),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_22%,rgba(88,60,42,0.06),transparent_22%),radial-gradient(circle_at_86%_72%,rgba(168,188,161,0.15),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
 
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         variants={containerVariants}
-        className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FAF7F2]/90 px-4 pt-9 pb-10 text-center shadow-[0_24px_70px_rgba(80,68,52,0.1)] ring-1 ring-white/60 md:px-8 md:pt-12 md:pb-14"
+        className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FCFBF8]/90 px-4 pt-9 pb-10 text-center shadow-[0_24px_70px_rgba(88,60,42,0.1)] ring-1 ring-white/60 md:px-8 md:pt-12 md:pb-14"
       >
         <motion.h2
           variants={itemVariants}
@@ -52,7 +52,7 @@ export function DressCodeSection() {
           Дрес-код
         </motion.h2>
 
-        <motion.p variants={itemVariants} className="mx-auto mt-4 max-w-[28rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#4E5D72]">
+        <motion.p variants={itemVariants} className="mx-auto mt-4 max-w-[28rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#583C2A]">
           Ми будемо вдячні, якщо ви підтримаєте атмосферу свята та оберете вбрання у відповідній кольоровій гамі
         </motion.p>
 
@@ -69,7 +69,7 @@ export function DressCodeSection() {
               className="grid justify-items-center cursor-default"
             >
               <motion.span
-                className="block size-14 rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_14px_30px_rgba(80,68,52,0.12)] ring-1 ring-white/60 md:size-16 transition-shadow duration-300 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_20px_40px_rgba(80,68,52,0.2)]"
+                className="block size-14 rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_14px_30px_rgba(88,60,42,0.12)] ring-1 ring-white/60 md:size-16 transition-shadow duration-300 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_20px_40px_rgba(88,60,42,0.2)]"
                 style={{ backgroundColor: color }}
                 whileHover={{ scale: 1.12 }}
                 transition={{ duration: 0.3 }}

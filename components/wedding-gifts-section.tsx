@@ -34,7 +34,7 @@ export function WeddingGiftsSection() {
   return (
     <section
       aria-labelledby="wedding-gifts-title"
-      className="relative overflow-hidden px-4 py-[clamp(3.5rem,8vw,6rem)]"
+      className="relative overflow-hidden px-4 py-[clamp(3.5rem,8vw,6rem)] min-h-[max(100svh,720px)]"
     >
       <div className="absolute inset-0">
         <Image
@@ -45,7 +45,7 @@ export function WeddingGiftsSection() {
           sizes="100vw"
           quality={85}
         />
-        <div className="absolute inset-0 bg-[#2A2520]/40" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(42,37,32,0.3)_0%,rgba(42,37,32,0.55)_50%,rgba(42,37,32,0.4)_100%)]" />
       </div>
 
       <motion.div
@@ -53,7 +53,7 @@ export function WeddingGiftsSection() {
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         variants={containerVariants}
-        className="relative z-[1] mx-auto max-w-[46rem] text-center"
+        className="relative z-[1] mx-auto max-w-[46rem] text-center flex flex-col items-center justify-center min-h-[inherit]"
       >
         <motion.div variants={itemVariants} className="mx-auto mb-6 text-white/60">
           <GiftIcon />
@@ -64,7 +64,7 @@ export function WeddingGiftsSection() {
           id="wedding-gifts-title"
           className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-white"
         >
-          Весільні подарунки
+          Наші побажання
         </motion.h2>
 
         <motion.p variants={itemVariants} className="mx-auto mt-5 max-w-[32rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-white/80">

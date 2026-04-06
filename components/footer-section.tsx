@@ -24,7 +24,7 @@ export function FooterSection() {
           sizes="100vw"
           quality={90}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,#F2EEE8_0%,rgba(245,240,232,0.4)_20%,rgba(245,240,232,0.05)_40%,transparent_60%,rgba(42,37,32,0.15)_80%,rgba(42,37,32,0.5)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,#F7F6F2_0%,rgba(247,246,242,0.4)_20%,rgba(247,246,242,0.05)_40%,transparent_60%,rgba(42,37,32,0.15)_80%,rgba(42,37,32,0.5)_100%)]" />
       </div>
 
       <motion.div
@@ -32,7 +32,7 @@ export function FooterSection() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1.2 }}
         viewport={{ once: true }}
-        className="relative z-[1] mx-auto max-w-[36rem] text-center pt-[clamp(16rem,45svh,28rem)] pb-12"
+        className="relative z-[1] mx-auto max-w-[36rem] text-center pt-12 pb-[clamp(16rem,45svh,28rem)]"
       >
         <div className="mb-6 flex items-center justify-center gap-4">
           <div className="h-[1px] w-12 bg-white/30" />

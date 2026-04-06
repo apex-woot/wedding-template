@@ -40,18 +40,18 @@ export function AccommodationSection() {
   return (
     <section
       aria-labelledby="accommodation-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#ECE8E2_0%,#EEEAE4_100%)] px-4 py-[clamp(3.5rem,8vw,6rem)]"
+      className="min-h-[max(60svh,480px)] relative overflow-hidden bg-[#F7F6F2] px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_22%,rgba(107,83,57,0.04),transparent_22%),radial-gradient(circle_at_84%_72%,rgba(180,168,150,0.1),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_22%,rgba(88,60,42,0.04),transparent_22%),radial-gradient(circle_at_84%_72%,rgba(168,188,161,0.1),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
 
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         variants={containerVariants}
-        className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FAF7F2]/90 px-5 pt-10 pb-12 text-center shadow-[0_24px_70px_rgba(80,68,52,0.1)] ring-1 ring-white/60 md:px-10 md:pt-14 md:pb-16"
+        className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FCFBF8]/90 px-5 pt-10 pb-12 text-center shadow-[0_24px_70px_rgba(88,60,42,0.1)] ring-1 ring-white/60 md:px-10 md:pt-14 md:pb-16"
       >
-        <motion.div variants={itemVariants} className="mx-auto mb-6 text-[#A09483]">
+        <motion.div variants={itemVariants} className="mx-auto mb-6 text-[#A8BCA1]">
           <AccommodationIcon />
         </motion.div>
 
@@ -63,7 +63,7 @@ export function AccommodationSection() {
           Проживання
         </motion.h2>
 
-        <motion.p variants={itemVariants} className="mx-auto mt-5 max-w-[34rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#4E5D72]">
+        <motion.p variants={itemVariants} className="mx-auto mt-5 max-w-[34rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#583C2A]">
           У Yavir Resort доступне бронювання проживання. Ви можете зарезервувати
           номер телефоном або через Booking.com.
         </motion.p>
@@ -74,7 +74,7 @@ export function AccommodationSection() {
             whileHover={{ y: -3, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="inline-flex min-w-[14rem] items-center justify-center rounded-full bg-[#583C2A] px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-[#F2EEE8] shadow-[0_18px_40px_rgba(107,83,57,0.25)] transition-colors duration-300 hover:bg-[#5A4530]"
+            className="inline-flex min-w-[14rem] items-center justify-center rounded-full bg-[#583C2A] px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-[#FAF9F6] shadow-[0_18px_40px_rgba(88,60,42,0.25)] transition-colors duration-300 hover:bg-[#6B4E38]"
           >
             {phoneLabel}
           </motion.a>
@@ -86,7 +86,7 @@ export function AccommodationSection() {
             whileHover={{ y: -3, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="inline-flex min-w-[14rem] items-center justify-center rounded-full border border-[#E8DCCB] bg-white px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-[#4E5D72] shadow-[0_12px_30px_rgba(80,68,52,0.08)] transition-colors duration-300 hover:bg-[#FAF7F2]"
+            className="inline-flex min-w-[14rem] items-center justify-center rounded-full border border-[#D8DED5] bg-white px-6 py-3.5 font-sans text-[0.8rem] font-medium uppercase tracking-[0.18em] text-[#583C2A] shadow-[0_12px_30px_rgba(88,60,42,0.08)] transition-colors duration-300 hover:bg-[#FCFBF8]"
           >
             Забронювати на Booking.com
           </motion.a>

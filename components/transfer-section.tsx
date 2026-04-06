@@ -34,18 +34,18 @@ export function TransferSection() {
   return (
     <section
       aria-labelledby="transfer-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#EEEAE4_0%,#ECE8E2_100%)] px-4 py-[clamp(3.5rem,8vw,6rem)]"
+      className="min-h-[max(60svh,480px)] relative overflow-hidden bg-[#F7F6F2] px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_24%,rgba(107,83,57,0.05),transparent_22%),radial-gradient(circle_at_82%_76%,rgba(180,168,150,0.12),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_24%,rgba(88,60,42,0.05),transparent_22%),radial-gradient(circle_at_82%_76%,rgba(168,188,161,0.12),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0))]" />
 
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         variants={containerVariants}
-        className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FAF7F2]/90 px-5 pt-10 pb-12 text-center shadow-[0_24px_70px_rgba(80,68,52,0.1)] ring-1 ring-white/60 md:px-10 md:pt-14 md:pb-16"
+        className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FCFBF8]/90 px-5 pt-10 pb-12 text-center shadow-[0_24px_70px_rgba(88,60,42,0.1)] ring-1 ring-white/60 md:px-10 md:pt-14 md:pb-16"
       >
-        <motion.div variants={itemVariants} className="mx-auto mb-6 text-[#A09483]">
+        <motion.div variants={itemVariants} className="mx-auto mb-6 text-[#A8BCA1]">
           <TransferIcon />
         </motion.div>
 
@@ -57,7 +57,7 @@ export function TransferSection() {
           Трансфер
         </motion.h2>
 
-        <motion.p variants={itemVariants} className="mx-auto mt-5 max-w-[34rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#4E5D72]">
+        <motion.p variants={itemVariants} className="mx-auto mt-5 max-w-[34rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.8] text-[#583C2A]">
           Буде організовано трансфер від церкви Святої Анни до ресторану та назад до Львова після святкування.
         </motion.p>
       </motion.div>

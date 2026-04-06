@@ -27,7 +27,7 @@ export function HeroSection() {
           className="object-cover object-[56%_center] md:object-center"
         />
 
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.25)_0%,transparent_20%,transparent_88%,#EEEAE4_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.25)_0%,transparent_20%,transparent_88%,#F7F6F2_100%)]" />
       </motion.div>
 
       {/* Content layout */}
