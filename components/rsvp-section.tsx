@@ -2,7 +2,6 @@
 
 import { type FormEvent, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -80,37 +79,28 @@ export function RsvpSection() {
     setError(null)
 
     try {
-      const supabase = createClient()
-      const { data, error: rpcError } = await supabase.rpc("submit_rsvp", {
-        p_family_surname: form.familySurname.trim(),
-        p_adults_count: form.adultsCount,
-        p_children_count: form.childrenCount,
-        p_attending: form.attending,
-        p_hotel_booking: form.hotelBooking,
-        p_transfer_needed: form.transferNeeded,
-        p_attending_church: form.attendingChurch,
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          familySurname: form.familySurname,
+          adultsCount: form.adultsCount,
+          childrenCount: form.childrenCount,
+          attending: form.attending,
+          hotelBooking: form.hotelBooking,
+          transferNeeded: form.transferNeeded,
+          attendingChurch: form.attendingChurch,
+        }),
       })
 
-      if (rpcError) {
-        console.error("rsvp rpc error:", rpcError)
-        setError("Щось пішло не так. Спробуйте ще раз.")
-        return
-      }
-      if (data === "duplicate") {
-        setError("Відповідь від цієї сім'ї вже була надіслана.")
-        return
-      }
-      if (data === "rate_limit") {
-        setError("Забагато запитів. Зачекайте хвилину та спробуйте знову.")
-        return
-      }
-      if (data === "error") {
-        setError("Щось пішло не так. Спробуйте ще раз.")
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error ?? "Щось пішло не так. Спробуйте ще раз.")
         return
       }
       setSubmitted(true)
-    } catch (err) {
-      console.error("rsvp submit failed:", err)
+    } catch {
       setError("Щось пішло не так. Спробуйте ще раз.")
     } finally {
       setSubmitting(false)
@@ -150,6 +140,7 @@ export function RsvpSection() {
                 <Input
                   id="family-surname"
                   value={form.familySurname}
+                  maxLength={100}
                   onChange={(event) => {
                     setForm((current) => ({
                       ...current,
@@ -171,6 +162,7 @@ export function RsvpSection() {
                     id="adults-count"
                     type="number"
                     min="1"
+                    max="20"
                     value={form.adultsCount}
                     onChange={(event) => {
                       setNumberField("adultsCount", event.target.value)
@@ -188,6 +180,7 @@ export function RsvpSection() {
                     id="children-count"
                     type="number"
                     min="0"
+                    max="20"
                     value={form.childrenCount}
                     onChange={(event) => {
                       setNumberField("childrenCount", event.target.value)
