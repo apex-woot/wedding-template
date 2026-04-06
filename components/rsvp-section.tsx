@@ -79,35 +79,42 @@ export function RsvpSection() {
     setSubmitting(true)
     setError(null)
 
-    const supabase = createClient()
-    const { data, error: rpcError } = await supabase.rpc("submit_rsvp", {
-      p_family_surname: form.familySurname.trim(),
-      p_adults_count: form.adultsCount,
-      p_children_count: form.childrenCount,
-      p_attending: form.attending,
-      p_hotel_booking: form.hotelBooking,
-      p_transfer_needed: form.transferNeeded,
-      p_attending_church: form.attendingChurch,
-    })
+    try {
+      const supabase = createClient()
+      const { data, error: rpcError } = await supabase.rpc("submit_rsvp", {
+        p_family_surname: form.familySurname.trim(),
+        p_adults_count: form.adultsCount,
+        p_children_count: form.childrenCount,
+        p_attending: form.attending,
+        p_hotel_booking: form.hotelBooking,
+        p_transfer_needed: form.transferNeeded,
+        p_attending_church: form.attendingChurch,
+      })
 
-    setSubmitting(false)
-    if (rpcError) {
+      if (rpcError) {
+        console.error("rsvp rpc error:", rpcError)
+        setError("Щось пішло не так. Спробуйте ще раз.")
+        return
+      }
+      if (data === "duplicate") {
+        setError("Відповідь від цієї сім'ї вже була надіслана.")
+        return
+      }
+      if (data === "rate_limit") {
+        setError("Забагато запитів. Зачекайте хвилину та спробуйте знову.")
+        return
+      }
+      if (data === "error") {
+        setError("Щось пішло не так. Спробуйте ще раз.")
+        return
+      }
+      setSubmitted(true)
+    } catch (err) {
+      console.error("rsvp submit failed:", err)
       setError("Щось пішло не так. Спробуйте ще раз.")
-      return
+    } finally {
+      setSubmitting(false)
     }
-    if (data === "duplicate") {
-      setError("Відповідь від цієї сім'ї вже була надіслана.")
-      return
-    }
-    if (data === "rate_limit") {
-      setError("Забагато запитів. Зачекайте хвилину та спробуйте знову.")
-      return
-    }
-    if (data === "error") {
-      setError("Щось пішло не так. Спробуйте ще раз.")
-      return
-    }
-    setSubmitted(true)
   }
 
   return (
