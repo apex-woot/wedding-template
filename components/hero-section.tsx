@@ -36,12 +36,11 @@ export function HeroSection() {
         className="absolute inset-0 will-change-transform"
       >
         <motion.div
-          initial={{ scale: 1.18, opacity: 0, filter: "blur(14px)" }}
-          animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+          initial={{ scale: 1.12, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
           transition={{
-            scale: { duration: 3.4, ease: easeOutExpo },
-            opacity: { duration: 2.6, ease: "easeOut" },
-            filter: { duration: 2.2, ease: "easeOut" },
+            scale: { duration: 3, ease: easeOutExpo },
+            opacity: { duration: 2.2, ease: "easeOut" },
           }}
           className="absolute inset-0"
         >
@@ -157,7 +156,12 @@ export function HeroSection() {
           >
             <motion.span
               animate={{ y: ["-100%", "100%"] }}
-              transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: 3.2 }}
+              transition={{
+                duration: 2.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 3.2,
+              }}
               className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent via-[#583C2A]/60 to-transparent"
             />
             <span className="absolute inset-0 bg-[#583C2A]/15" />

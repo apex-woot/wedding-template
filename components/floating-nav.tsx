@@ -27,24 +27,40 @@ export function FloatingNav() {
   useEffect(() => {
     const handleScroll = () => {
       setIsVisible(window.scrollY > window.innerHeight * 0.8)
-
-      const sectionElements = sections
-        .map(({ id }) => ({ id, el: document.getElementById(id) }))
-        .filter((s): s is { id: SectionId; el: HTMLElement } => s.el !== null)
-
-      const viewportCenter = window.innerHeight / 3
-
-      for (let i = sectionElements.length - 1; i >= 0; i--) {
-        const rect = sectionElements[i].el.getBoundingClientRect()
-        if (rect.top <= viewportCenter) {
-          setActiveSection(sectionElements[i].id)
-          break
-        }
-      }
     }
 
+    handleScroll()
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const sectionElements = sections
+      .map(({ id }) => ({ id, el: document.getElementById(id) }))
+      .filter((s): s is { id: SectionId; el: HTMLElement } => s.el !== null)
+
+    if (!sectionElements.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+
+        if (!visible.length) return
+
+        const id = visible[0].target.id as SectionId
+        setActiveSection((current) => (current === id ? current : id))
+      },
+      {
+        rootMargin: "-30% 0px -45% 0px",
+        threshold: [0.15, 0.35, 0.6],
+      }
+    )
+
+    for (const { el } of sectionElements) observer.observe(el)
+
+    return () => observer.disconnect()
   }, [])
 
   function navigateTo(id: SectionId, smooth: boolean) {

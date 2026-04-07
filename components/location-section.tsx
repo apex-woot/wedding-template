@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { LuNavigation } from "react-icons/lu"
@@ -32,7 +33,10 @@ const itemVariants = {
 
 export function LocationSection() {
   const ref = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  })
   const orbsY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"])
   const photoScale = useTransform(scrollYProgress, [0, 1], [1.04, 1.12])
 
@@ -98,13 +102,18 @@ export function LocationSection() {
             className="overflow-hidden rounded-[2rem] bg-gradient-to-b from-white/90 to-[#FCFBF8]/70 p-2 shadow-[0_30px_80px_-20px_rgba(88,60,42,0.18)] ring-1 ring-white/70 transition-shadow duration-700 hover:shadow-[0_40px_100px_-20px_rgba(88,60,42,0.28)]"
           >
             <div className="overflow-hidden rounded-[1.4rem] bg-[#D8DED5]">
-              <motion.img
+              <motion.div
                 style={{ scale: photoScale }}
-                src={venuePhotoUrl}
-                alt="Yavir Resort"
-                className="block w-full object-cover md:max-h-[70svh] will-change-transform"
-                loading="lazy"
-              />
+                className="relative block aspect-[1600/1067] w-full md:max-h-[70svh] will-change-transform"
+              >
+                <Image
+                  src={venuePhotoUrl}
+                  alt="Yavir Resort"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 1152px"
+                  className="object-cover"
+                />
+              </motion.div>
             </div>
           </motion.div>
 
@@ -135,7 +144,10 @@ export function LocationSection() {
                   viewport={{ once: true }}
                   className="pointer-events-auto inline-flex items-center gap-2.5 rounded-full bg-[#FCFBF8]/95 backdrop-blur-md px-4 py-2.5 shadow-[0_18px_40px_rgba(88,60,42,0.18)] ring-1 ring-[#D8DED5] hover:shadow-[0_24px_50px_rgba(88,60,42,0.25)] transition-shadow duration-500"
                 >
-                  <LuNavigation aria-hidden="true" className="size-4 text-[#583C2A]" />
+                  <LuNavigation
+                    aria-hidden="true"
+                    className="size-4 text-[#583C2A]"
+                  />
                   <span className="font-sans text-[0.78rem] font-medium uppercase tracking-[0.18em] text-[#364274]">
                     Yavir Resort
                   </span>
