@@ -1,7 +1,10 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
 import { LuNavigation } from "react-icons/lu"
+
+const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 const venuePhotoUrl =
   "https://lh3.googleusercontent.com/p/AF1QipOhgidaF-66o5qAGBQdWSngmfA8gYAQGlWm1C5v=w1600-h1067-k-no"
@@ -13,23 +16,39 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.16, delayChildren: 0.1 },
   },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] as const } },
+  hidden: { opacity: 0, y: 32, filter: "blur(6px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 1.2, ease: easeOutExpo },
+  },
 }
 
 export function LocationSection() {
+  const ref = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const orbsY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"])
+  const photoScale = useTransform(scrollYProgress, [0, 1], [1.04, 1.12])
+
   return (
     <section
+      ref={ref}
       id="location"
       aria-labelledby="location-title"
       className="min-h-[max(100svh,720px)] relative overflow-hidden bg-[#F7F6F2] px-4 py-[clamp(3.5rem,8vw,6rem)]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(88,60,42,0.06),transparent_24%),radial-gradient(circle_at_88%_78%,rgba(168,188,161,0.15),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0))]" />
+      <motion.div
+        style={{ y: orbsY }}
+        className="pointer-events-none absolute inset-0 will-change-transform"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_15%,rgba(88,60,42,0.07),transparent_28%),radial-gradient(circle_at_88%_78%,rgba(168,188,161,0.18),transparent_32%),radial-gradient(circle_at_50%_50%,rgba(143,172,194,0.08),transparent_55%)]" />
+      </motion.div>
 
       <motion.div
         initial="hidden"
@@ -39,6 +58,12 @@ export function LocationSection() {
         className="relative z-[1] mx-auto max-w-[72rem]"
       >
         <div className="mx-auto max-w-[42rem] text-center">
+          <motion.p
+            variants={itemVariants}
+            className="font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.5em] text-[#583C2A]/45 mb-4"
+          >
+            де ми зустрінемось
+          </motion.p>
           <motion.h2
             variants={itemVariants}
             id="location-title"
@@ -46,27 +71,38 @@ export function LocationSection() {
           >
             Локація
           </motion.h2>
-          <motion.p variants={itemVariants} className="mt-4 font-sans text-[clamp(0.85rem,2.2vw,1.05rem)] font-medium tracking-[0.12em] text-[#583C2A] uppercase">
-            Явір Резорт
-          </motion.p>
-          <motion.p variants={itemVariants} className="mt-4 text-balance font-sans text-[clamp(1rem,2.4vw,1.1rem)] leading-[1.8] text-[#583C2A]">
+          <motion.div
+            variants={itemVariants}
+            className="mt-5 flex items-center justify-center gap-3"
+          >
+            <span className="h-[1px] w-8 bg-gradient-to-r from-transparent to-[#583C2A]/40" />
+            <p className="font-sans text-[0.78rem] md:text-[0.95rem] font-medium tracking-[0.2em] text-[#583C2A] uppercase">
+              Явір Резорт
+            </p>
+            <span className="h-[1px] w-8 bg-gradient-to-l from-transparent to-[#583C2A]/40" />
+          </motion.div>
+          <motion.p
+            variants={itemVariants}
+            className="mt-5 text-balance font-sans text-[clamp(1rem,2.4vw,1.1rem)] leading-[1.85] font-light text-[#583C2A]"
+          >
             Церемонія відбудеться в церкві Святої Анни у Львові, а святкування
             продовжиться в Явір Резорт.
           </motion.p>
         </div>
 
-        <div className="mt-10 lg:mt-14">
+        <div className="mt-12 lg:mt-16 grid gap-6">
           <motion.div
             variants={itemVariants}
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mb-6 overflow-hidden rounded-[2rem] bg-[#FCFBF8]/75 p-2 shadow-[0_24px_70px_rgba(88,60,42,0.1)] ring-1 ring-white/60 transition-shadow duration-500 hover:shadow-[0_32px_80px_rgba(88,60,42,0.18)]"
+            whileHover={{ y: -6 }}
+            transition={{ duration: 0.6, ease: easeOutExpo }}
+            className="overflow-hidden rounded-[2rem] bg-gradient-to-b from-white/90 to-[#FCFBF8]/70 p-2 shadow-[0_30px_80px_-20px_rgba(88,60,42,0.18)] ring-1 ring-white/70 transition-shadow duration-700 hover:shadow-[0_40px_100px_-20px_rgba(88,60,42,0.28)]"
           >
             <div className="overflow-hidden rounded-[1.4rem] bg-[#D8DED5]">
-              <img
+              <motion.img
+                style={{ scale: photoScale }}
                 src={venuePhotoUrl}
                 alt="Yavir Resort"
-                className="block w-full object-contain md:max-h-[70svh] transition-transform duration-700 hover:scale-[1.03]"
+                className="block w-full object-cover md:max-h-[70svh] will-change-transform"
                 loading="lazy"
               />
             </div>
@@ -74,7 +110,9 @@ export function LocationSection() {
 
           <motion.div
             variants={itemVariants}
-            className="overflow-hidden rounded-[2rem] bg-[#FCFBF8]/75 p-2 shadow-[0_24px_70px_rgba(88,60,42,0.1)] ring-1 ring-white/60"
+            whileHover={{ y: -6 }}
+            transition={{ duration: 0.6, ease: easeOutExpo }}
+            className="overflow-hidden rounded-[2rem] bg-gradient-to-b from-white/90 to-[#FCFBF8]/70 p-2 shadow-[0_30px_80px_-20px_rgba(88,60,42,0.18)] ring-1 ring-white/70 transition-shadow duration-700 hover:shadow-[0_40px_100px_-20px_rgba(88,60,42,0.28)]"
           >
             <div className="relative overflow-hidden rounded-[1.4rem] bg-[#D8DED5]">
               <iframe
@@ -85,19 +123,23 @@ export function LocationSection() {
                 className="h-[24rem] w-full border-0 md:h-[32rem]"
               />
 
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(247,246,242,0.88)_100%)] px-5 pt-10 pb-5">
-                <motion.div
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(247,246,242,0.92)_100%)] px-5 pt-12 pb-5">
+                <motion.a
+                  href="https://maps.google.com/?q=Yavir+Resort+Starychi+Lviv"
+                  target="_blank"
+                  rel="noreferrer"
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  transition={{ duration: 0.4 }}
                   viewport={{ once: true }}
-                  className="inline-flex items-center gap-2 rounded-full bg-[#FCFBF8]/92 px-3 py-2 shadow-[0_12px_30px_rgba(88,60,42,0.12)] ring-1 ring-[#D8DED5]"
+                  className="pointer-events-auto inline-flex items-center gap-2.5 rounded-full bg-[#FCFBF8]/95 backdrop-blur-md px-4 py-2.5 shadow-[0_18px_40px_rgba(88,60,42,0.18)] ring-1 ring-[#D8DED5] hover:shadow-[0_24px_50px_rgba(88,60,42,0.25)] transition-shadow duration-500"
                 >
                   <LuNavigation aria-hidden="true" className="size-4 text-[#583C2A]" />
                   <span className="font-sans text-[0.78rem] font-medium uppercase tracking-[0.18em] text-[#364274]">
                     Yavir Resort
                   </span>
-                </motion.div>
+                </motion.a>
               </div>
             </div>
           </motion.div>

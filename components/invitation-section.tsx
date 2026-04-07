@@ -1,68 +1,79 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
+import { useRef } from "react"
+
+const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.18, delayChildren: 0.15 },
   },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 28, filter: "blur(6px)" },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] as const },
+    filter: "blur(0px)",
+    transition: { duration: 1.2, ease: easeOutExpo },
   },
 }
 
 export function InvitationSection() {
+  const ref = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  })
+
+  const photoY = useTransform(scrollYProgress, [0, 1], ["-6%", "10%"])
+  const orbY = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"])
+
   return (
     <section
+      ref={ref}
       id="invitation"
       aria-labelledby="invitation-title"
       className="min-h-[max(100svh,720px)] relative overflow-hidden bg-[#F7F6F2] px-4 py-[clamp(4rem,10svh,7rem)]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(88,60,42,0.06),transparent_35%),radial-gradient(circle_at_15%_72%,rgba(168,188,161,0.1),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.3),rgba(255,255,255,0.05))]" />
+      <motion.div
+        style={{ y: orbY }}
+        className="pointer-events-none absolute inset-0 will-change-transform"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(88,60,42,0.07),transparent_38%),radial-gradient(circle_at_15%_72%,rgba(168,188,161,0.14),transparent_32%),radial-gradient(circle_at_85%_45%,rgba(143,172,194,0.1),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.4),rgba(255,255,255,0))]" />
+      </motion.div>
 
       <div className="relative z-1 w-full max-w-200 mx-auto px-[1.2rem] md:px-[1.6rem]">
         <article className="grid justify-items-center">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 60, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.4, ease: easeOutExpo }}
             viewport={{ once: true, margin: "-100px" }}
             className="relative z-2 grid aspect-[0.7] w-full max-w-[24rem] md:max-w-lg md:max-h-[80svh] place-items-center mb-12"
           >
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative h-full w-full overflow-hidden rounded-t-[50%] rounded-b-md bg-[#D8DED5] shadow-[0_30px_60px_-15px_rgba(88,60,42,0.3)]"
+              whileHover={{ scale: 1.025 }}
+              transition={{ duration: 0.8, ease: easeOutExpo }}
+              className="relative h-full w-full overflow-hidden rounded-t-[50%] rounded-b-md bg-[#D8DED5] shadow-[0_40px_80px_-20px_rgba(88,60,42,0.35)] ring-1 ring-white/40"
             >
-              <motion.div
-                whileInView={{ scale: 1.05 }}
-                transition={{
-                  duration: 25,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "linear",
-                }}
-                className="relative w-full h-full"
-              >
+              <motion.div style={{ y: photoY }} className="relative w-full h-full will-change-transform">
                 <Image
                   quality={100}
                   src="/IMG_8335.JPG"
                   alt="Пара тримається за руки"
                   fill
                   sizes="(max-width: 768px) 88vw, 512px"
-                  className="object-contain object-center filter-[grayscale(0.15)_saturate(0.85)_contrast(1.05)_brightness(1.02)]"
+                  className="object-cover object-center scale-[1.15] filter-[grayscale(0.1)_saturate(0.9)_contrast(1.05)_brightness(1.02)]"
                 />
               </motion.div>
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(88,60,42,0.12))]" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0)_30%,rgba(88,60,42,0.18)_100%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,transparent_55%,rgba(88,60,42,0.18)_100%)]" />
             </motion.div>
           </motion.div>
 
@@ -74,10 +85,17 @@ export function InvitationSection() {
             className="relative w-full max-w-[32rem]"
           >
             <div className="relative z-[1] grid justify-items-center gap-6 text-center px-4">
+              <motion.div
+                variants={itemVariants}
+                className="font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.5em] text-[#583C2A]/45"
+              >
+                запрошення
+              </motion.div>
+
               <motion.h2
                 variants={itemVariants}
                 id="invitation-title"
-                className="m-0 font-display text-[clamp(2.5rem,7vw,3.6rem)] leading-[0.96] font-medium tracking-[-0.02em] text-[#364274]"
+                className="m-0 font-display text-[clamp(2.6rem,7.5vw,3.8rem)] leading-[0.96] font-medium tracking-[-0.025em] text-[#364274]"
               >
                 Дорогі гості!
               </motion.h2>
@@ -85,7 +103,7 @@ export function InvitationSection() {
               <div className="space-y-5">
                 <motion.p
                   variants={itemVariants}
-                  className="m-0 max-w-[28ch] mx-auto text-balance font-sans text-[clamp(1.05rem,2.5vw,1.2rem)] leading-[1.8] font-light text-[#583C2A]"
+                  className="m-0 max-w-[28ch] mx-auto text-balance font-sans text-[clamp(1.05rem,2.5vw,1.2rem)] leading-[1.85] font-light text-[#583C2A]"
                 >
                   У нашому житті настає особливий день — день, коли ми станемо
                   сім&rsquo;єю.
@@ -93,7 +111,7 @@ export function InvitationSection() {
 
                 <motion.p
                   variants={itemVariants}
-                  className="m-0 max-w-[28ch] mx-auto text-balance font-sans text-[clamp(1.05rem,2.5vw,1.2rem)] leading-[1.8] font-light text-[#583C2A]"
+                  className="m-0 max-w-[28ch] mx-auto text-balance font-sans text-[clamp(1.05rem,2.5vw,1.2rem)] leading-[1.85] font-light text-[#583C2A]"
                 >
                   Ми щиро хочемо розділити цю радість разом із вами та зробити
                   цей день теплим, щирим і незабутнім.
@@ -102,8 +120,7 @@ export function InvitationSection() {
 
               <motion.div
                 variants={itemVariants}
-                className="h-[1px] bg-[#583C2A]/20 mt-4"
-                style={{ width: 40 }}
+                className="mt-4 h-[1px] w-12 bg-gradient-to-r from-transparent via-[#583C2A]/40 to-transparent"
               />
             </div>
           </motion.div>

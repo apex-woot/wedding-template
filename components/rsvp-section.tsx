@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
+const easeOutExpo = [0.16, 1, 0.3, 1] as const
+
 type RsvpFormState = {
   familySurname: string
   attending: boolean
@@ -36,12 +38,17 @@ const initialState: RsvpFormState = {
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.25 } },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } },
+  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 1, ease: easeOutExpo },
+  },
 }
 
 export function RsvpSection() {
@@ -114,7 +121,7 @@ export function RsvpSection() {
       className="min-h-[max(100svh,720px)] relative overflow-hidden bg-[#F7F6F2] px-4 pt-[clamp(6rem,12vw,10rem)] pb-[clamp(8rem,15vw,12rem)]"
     >
       <div className="absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,#F7F6F2_0%,rgba(245,244,240,0)_100%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(88,60,42,0.04),transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(88,60,42,0.06),transparent_42%),radial-gradient(circle_at_15%_75%,rgba(168,188,161,0.13),transparent_36%),radial-gradient(circle_at_85%_60%,rgba(143,172,194,0.08),transparent_36%)]" />
 
       <motion.div
         initial="hidden"
@@ -123,18 +130,36 @@ export function RsvpSection() {
         variants={containerVariants}
         className="relative z-[1] mx-auto max-w-[42rem]"
       >
-        <div className="text-center mb-16">
-          <motion.div variants={itemVariants} className="mx-auto w-[1px] h-10 bg-[#583C2A]/40 mb-6" />
-          <motion.p variants={itemVariants} className="mx-auto max-w-[28rem] text-balance font-sans text-[clamp(0.95rem,2.5vw,1.1rem)] leading-[1.8] text-[#583C2A] font-light tracking-wide">
+        <div className="text-center mb-14">
+          <motion.h2
+            variants={itemVariants}
+            className="font-display text-[clamp(2.7rem,8vw,4.4rem)] leading-[0.95] font-medium tracking-[-0.025em] text-[#364274]"
+          >
+            <span className="italic">Ваша відповідь</span>
+          </motion.h2>
+          <motion.div
+            variants={itemVariants}
+            className="mx-auto mt-5 h-[1px] w-12 bg-gradient-to-r from-transparent via-[#583C2A]/40 to-transparent"
+          />
+          <motion.p
+            variants={itemVariants}
+            className="mx-auto mt-6 max-w-[28rem] text-balance font-sans text-[clamp(0.95rem,2.5vw,1.1rem)] leading-[1.85] text-[#583C2A] font-light"
+          >
             Будь ласка, заповніть одну форму на пару або сім&rsquo;ю.
           </motion.p>
         </div>
 
         <motion.div variants={itemVariants}>
-          <form className="mt-8 md:mt-12 bg-[#FCFBF8]/40 backdrop-blur-sm p-8 md:p-14 border border-[#D8DED5]/60 shadow-[0_40px_100px_rgba(88,60,42,0.04)]" onSubmit={handleSubmit}>
+          <form
+            className="relative mt-8 md:mt-12 rounded-[1.5rem] bg-gradient-to-b from-white/85 to-[#FCFBF8]/65 backdrop-blur-md p-8 md:p-14 border border-white/60 shadow-[0_50px_120px_-30px_rgba(88,60,42,0.18)] ring-1 ring-[#D8DED5]/40"
+            onSubmit={handleSubmit}
+          >
             <FieldGroup className="gap-10">
               <Field>
-                <FieldLabel htmlFor="family-surname" className="text-[#583C2A] font-normal tracking-wide text-xs uppercase mb-1">
+                <FieldLabel
+                  htmlFor="family-surname"
+                  className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
+                >
                   Прізвище сім&rsquo;ї
                 </FieldLabel>
                 <Input
@@ -149,13 +174,16 @@ export function RsvpSection() {
                     setSubmitted(false)
                   }}
                   placeholder="Наприклад, родина Когутів"
-                  className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] placeholder:text-[#A8BCA1]/50 transition-colors"
+                  className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] placeholder:text-[#A8BCA1]/55 transition-colors duration-500"
                 />
               </Field>
 
               <div className="grid gap-10 md:grid-cols-2">
                 <Field>
-                  <FieldLabel htmlFor="adults-count" className="text-[#583C2A] font-normal tracking-wide text-xs uppercase mb-1">
+                  <FieldLabel
+                    htmlFor="adults-count"
+                    className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
+                  >
                     Кількість дорослих
                   </FieldLabel>
                   <Input
@@ -168,12 +196,15 @@ export function RsvpSection() {
                       setNumberField("adultsCount", event.target.value)
                       setSubmitted(false)
                     }}
-                    className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] transition-colors text-center"
+                    className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] transition-colors duration-500 text-center"
                   />
                 </Field>
 
                 <Field>
-                  <FieldLabel htmlFor="children-count" className="text-[#583C2A] font-normal tracking-wide text-xs uppercase mb-1">
+                  <FieldLabel
+                    htmlFor="children-count"
+                    className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
+                  >
                     Кількість дітей
                   </FieldLabel>
                   <Input
@@ -186,12 +217,12 @@ export function RsvpSection() {
                       setNumberField("childrenCount", event.target.value)
                       setSubmitted(false)
                     }}
-                    className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] transition-colors text-center"
+                    className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] transition-colors duration-500 text-center"
                   />
                 </Field>
               </div>
 
-              <div className="mt-6 pt-10 border-t border-[#D8DED5]/50 grid gap-6">
+              <div className="mt-6 pt-10 border-t border-[#D8DED5]/55 grid gap-6">
                 {[
                   { id: "attending", field: "attending" as const, label: "Ми будемо присутні" },
                   { id: "hotel-booking", field: "hotelBooking" as const, label: "Ми будемо бронювати номер у готелі" },
@@ -200,8 +231,8 @@ export function RsvpSection() {
                 ].map(({ id, field, label }) => (
                   <motion.div
                     key={id}
-                    whileHover={{ x: 4 }}
-                    transition={{ duration: 0.2 }}
+                    whileHover={{ x: 6 }}
+                    transition={{ duration: 0.3, ease: easeOutExpo }}
                   >
                     <Field orientation="horizontal" className="items-center">
                       <FieldLabel htmlFor={id} className="text-[#583C2A] cursor-pointer flex items-center gap-4">
@@ -212,7 +243,7 @@ export function RsvpSection() {
                             setBooleanField(field, checked === true)
                             setSubmitted(false)
                           }}
-                          className="size-[22px] rounded-sm border-[#A8BCA1] data-checked:border-[#583C2A] data-checked:bg-[#583C2A] transition-all"
+                          className="size-[22px] rounded-sm border-[#A8BCA1] data-checked:border-[#583C2A] data-checked:bg-[#583C2A] transition-all duration-300"
                         />
                         <FieldContent>
                           <FieldTitle className="text-[#364274] font-light text-[1.05rem]">
@@ -225,22 +256,23 @@ export function RsvpSection() {
                 ))}
               </div>
 
-              <div className="mt-8 pt-10 border-t border-[#D8DED5]/50 flex flex-col items-center gap-8">
+              <div className="mt-8 pt-10 border-t border-[#D8DED5]/55 flex flex-col items-center gap-8">
                 <motion.div
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.025, y: -2 }}
                   whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.3, ease: easeOutExpo }}
                   className="w-full md:w-auto"
                 >
                   <Button
                     type="submit"
                     disabled={submitting}
-                    className="h-14 w-full md:w-auto min-w-[200px] rounded-none bg-[#364274] px-10 text-[0.8rem] font-normal uppercase tracking-[0.25em] text-[#FAF9F6] hover:bg-[#364274] transition-colors duration-500 disabled:opacity-50"
+                    className="h-14 w-full md:w-auto min-w-[220px] rounded-full bg-gradient-to-br from-[#4A5790] to-[#364274] px-12 text-[0.78rem] font-medium uppercase tracking-[0.25em] text-[#FAF9F6] shadow-[0_24px_50px_-12px_rgba(54,66,116,0.45),inset_0_1px_0_rgba(255,255,255,0.18)] hover:shadow-[0_30px_60px_-12px_rgba(54,66,116,0.6),inset_0_1px_0_rgba(255,255,255,0.18)] hover:from-[#566AAF] hover:to-[#3D4C82] transition-all duration-500 disabled:opacity-50"
                   >
                     {submitting ? "Надсилаємо..." : "Надіслати"}
                   </Button>
                 </motion.div>
 
-                <FieldDescription className="text-center text-[#A8BCA1]/70 text-xs font-light tracking-wide uppercase">
+                <FieldDescription className="text-center text-[#A8BCA1]/75 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
                   Однієї відповіді на одне запрошення достатньо
                 </FieldDescription>
               </div>
@@ -251,10 +283,10 @@ export function RsvpSection() {
                     initial={{ opacity: 0, height: 0, y: 10 }}
                     animate={{ opacity: 1, height: "auto", y: 0 }}
                     exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.5, ease: easeOutExpo }}
                     className="mt-4 overflow-hidden"
                   >
-                    <div className="border border-red-200 bg-red-50 px-6 py-5 text-center font-sans text-sm text-red-700 tracking-wide">
+                    <div className="rounded-md border border-red-200 bg-red-50/80 backdrop-blur-sm px-6 py-5 text-center font-sans text-sm text-red-700 tracking-wide">
                       {error}
                     </div>
                   </motion.div>
@@ -264,10 +296,10 @@ export function RsvpSection() {
                     initial={{ opacity: 0, height: 0, y: 10 }}
                     animate={{ opacity: 1, height: "auto", y: 0 }}
                     exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.5, ease: easeOutExpo }}
                     className="mt-4 overflow-hidden"
                   >
-                    <div className="border border-[#D8DED5] bg-[#FCFBF8] px-6 py-5 text-center font-sans text-sm text-[#364274] tracking-wide">
+                    <div className="rounded-md border border-[#D8DED5] bg-[#FCFBF8]/80 backdrop-blur-sm px-6 py-5 text-center font-sans text-sm text-[#364274] tracking-wide">
                       Дякуємо. Ваша відповідь успішно передана.
                     </div>
                   </motion.div>
