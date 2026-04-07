@@ -1,20 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { LuBusFront } from "react-icons/lu"
 
 function TransferIcon() {
-  return (
-    <svg viewBox="0 0 64 64" aria-hidden="true" className="h-auto w-16 md:w-20" fill="none">
-      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 40h52" strokeWidth="1.4" />
-        <path d="M10 40V24a2 2 0 0 1 2-2h24a2 2 0 0 1 2 1l6 9h8a2 2 0 0 1 2 2v6" strokeWidth="1.4" />
-        <circle cx="18" cy="44" r="4" strokeWidth="1.4" />
-        <circle cx="46" cy="44" r="4" strokeWidth="1.4" />
-        <path d="M22 40h20" strokeWidth="1" />
-        <path d="M38 28v4h10" strokeWidth="1.2" />
-      </g>
-    </svg>
-  )
+  return <LuBusFront aria-hidden="true" className="h-auto w-16 md:w-20" strokeWidth={1.2} />
 }
 
 const containerVariants = {
@@ -45,7 +35,7 @@ export function TransferSection() {
         variants={containerVariants}
         className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FCFBF8]/90 px-5 pt-10 pb-12 text-center shadow-[0_24px_70px_rgba(88,60,42,0.1)] ring-1 ring-white/60 md:px-10 md:pt-14 md:pb-16"
       >
-        <motion.div variants={itemVariants} className="mx-auto mb-6 text-[#A8BCA1]">
+        <motion.div variants={itemVariants} className="mb-6 flex justify-center text-[#A8BCA1]">
           <TransferIcon />
         </motion.div>
 

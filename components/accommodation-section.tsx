@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { LuHotel } from "react-icons/lu"
 
 const bookingUrl =
   "https://www.booking.com/hotel/ua/iavir-rezort.uk.html?chal_t=1772912905071&force_referer="
@@ -9,18 +10,7 @@ const phoneHref = "tel:+380685981328"
 const phoneLabel = "+38 (068) 598 13 28"
 
 function AccommodationIcon() {
-  return (
-    <svg viewBox="0 0 64 64" aria-hidden="true" className="h-auto w-16 md:w-20" fill="none">
-      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M8 52V16a2 2 0 0 1 2-2h44a2 2 0 0 1 2 2v36" strokeWidth="1.4" />
-        <path d="M4 52h56" strokeWidth="1.4" />
-        <rect x="24" y="36" width="16" height="16" rx="1" strokeWidth="1.2" />
-        <path d="M32 36v16" strokeWidth="0.8" />
-        <rect x="18" y="20" width="8" height="8" rx="1" strokeWidth="1.1" />
-        <rect x="38" y="20" width="8" height="8" rx="1" strokeWidth="1.1" />
-      </g>
-    </svg>
-  )
+  return <LuHotel aria-hidden="true" className="h-auto w-16 md:w-20" strokeWidth={1.2} />
 }
 
 const containerVariants = {
@@ -51,7 +41,7 @@ export function AccommodationSection() {
         variants={containerVariants}
         className="relative z-[1] mx-auto max-w-[46rem] rounded-[2rem] bg-[#FCFBF8]/90 px-5 pt-10 pb-12 text-center shadow-[0_24px_70px_rgba(88,60,42,0.1)] ring-1 ring-white/60 md:px-10 md:pt-14 md:pb-16"
       >
-        <motion.div variants={itemVariants} className="mx-auto mb-6 text-[#A8BCA1]">
+        <motion.div variants={itemVariants} className="mb-6 flex justify-center text-[#A8BCA1]">
           <AccommodationIcon />
         </motion.div>
 

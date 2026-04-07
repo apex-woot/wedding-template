@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Navigation } from "lucide-react"
+import { LuNavigation } from "react-icons/lu"
 
 const venuePhotoUrl =
   "https://lh3.googleusercontent.com/p/AF1QipOhgidaF-66o5qAGBQdWSngmfA8gYAQGlWm1C5v=w1600-h1067-k-no"
@@ -93,7 +93,7 @@ export function LocationSection() {
                   viewport={{ once: true }}
                   className="inline-flex items-center gap-2 rounded-full bg-[#FCFBF8]/92 px-3 py-2 shadow-[0_12px_30px_rgba(88,60,42,0.12)] ring-1 ring-[#D8DED5]"
                 >
-                  <Navigation className="size-4 text-[#583C2A]" />
+                  <LuNavigation aria-hidden="true" className="size-4 text-[#583C2A]" />
                   <span className="font-sans text-[0.78rem] font-medium uppercase tracking-[0.18em] text-[#364274]">
                     Yavir Resort
                   </span>

@@ -70,7 +70,7 @@ export function StoryCalendarSection() {
           className="relative mx-auto mt-6 flex items-center justify-center"
         >
           <div className="relative flex items-center justify-center">
-            <div className="relative h-[clamp(12rem,35vw,20rem)] w-[clamp(12rem,35vw,20rem)]">
+            <div className="relative h-[clamp(12rem,35vw,20rem)] w-[clamp(12rem,35vw,20rem)] md:h-[28rem] md:w-[28rem]">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
@@ -85,7 +85,7 @@ export function StoryCalendarSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.4 }}
                   viewport={{ once: true }}
-                  className="font-display text-[clamp(7rem,22vw,13rem)] leading-[0.75] font-medium tracking-[-0.06em] text-[#583C2A]"
+                  className="font-display text-[clamp(7rem,22vw,13rem)] md:text-[18rem] leading-[0.75] font-medium tracking-[-0.06em] text-[#583C2A]"
                 >
                   11
                 </motion.span>
@@ -94,7 +94,7 @@ export function StoryCalendarSection() {
                   whileInView={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.8 }}
                   viewport={{ once: true }}
-                  className="mt-1 font-sans text-[clamp(0.7rem,2vw,0.9rem)] font-medium uppercase tracking-[0.4em] text-[#583C2A]/40"
+                  className="mt-1 font-sans text-[clamp(0.7rem,2vw,0.9rem)] md:text-[1.2rem] font-medium uppercase tracking-[0.4em] text-[#583C2A]/40"
                 >
                   липня
                 </motion.span>
@@ -136,7 +136,7 @@ export function StoryCalendarSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true, margin: "-40px" }}
-          className="mx-auto mt-8 max-w-[22rem]"
+          className="mx-auto mt-8 max-w-[22rem] md:mt-12 md:max-w-[34rem]"
           role="img"
           aria-label="Календар на липень 2026 року, де 11 число виділено як день весілля"
         >
@@ -145,7 +145,7 @@ export function StoryCalendarSection() {
             {daysOfWeek.map((day) => (
               <span
                 key={day}
-                className="text-center font-sans text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-[#583C2A]/30"
+                className="text-center font-sans text-[0.58rem] md:text-[0.8rem] font-semibold uppercase tracking-[0.18em] text-[#583C2A]/30"
               >
                 {day}
               </span>
@@ -169,7 +169,7 @@ export function StoryCalendarSection() {
                 {week.map((day, dayIndex) => {
                   const cellKey = `${weekIndex}-${dayIndex}`
                   if (day === null)
-                    return <span key={cellKey} className="h-[2.2rem]" />
+                    return <span key={cellKey} className="h-[2.2rem] md:h-[3.4rem]" />
 
                   const isWeddingDay = day === 11
 
@@ -178,9 +178,9 @@ export function StoryCalendarSection() {
                       key={cellKey}
                       variants={calendarCellVariants}
                       whileHover={isWeddingDay ? undefined : { scale: 1.15 }}
-                      className={`grid h-[2.2rem] place-items-center rounded-full font-sans text-[0.85rem] transition-colors duration-200 ${
+                      className={`grid h-[2.2rem] md:h-[3.4rem] place-items-center rounded-full font-sans text-[0.85rem] md:text-[1.25rem] transition-colors duration-200 ${
                         isWeddingDay
-                          ? "bg-[#583C2A] text-[#FAF9F6] font-semibold text-[0.9rem] shadow-[0_4px_20px_rgba(88,60,42,0.3)]"
+                          ? "bg-[#583C2A] text-[#FAF9F6] font-semibold text-[0.9rem] md:text-[1.35rem] shadow-[0_4px_20px_rgba(88,60,42,0.3)]"
                           : "text-[#583C2A] font-light hover:text-[#583C2A] hover:bg-[#D8DED5]/50"
                       }`}
                     >

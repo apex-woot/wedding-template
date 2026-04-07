@@ -2,19 +2,10 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { LuGift } from "react-icons/lu"
 
 function GiftIcon() {
-  return (
-    <svg viewBox="0 0 64 64" aria-hidden="true" className="h-auto w-16 md:w-20" fill="none">
-      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="12" y="28" width="40" height="24" rx="2" strokeWidth="1.4" />
-        <rect x="8" y="22" width="48" height="8" rx="2" strokeWidth="1.4" />
-        <path d="M32 22v30" strokeWidth="1.2" />
-        <path d="M32 22c-4-8-14-12-14-4s14 4 14 4" strokeWidth="1.2" />
-        <path d="M32 22c4-8 14-12 14-4s-14 4-14 4" strokeWidth="1.2" />
-      </g>
-    </svg>
-  )
+  return <LuGift aria-hidden="true" className="h-auto w-16 md:w-20" strokeWidth={1.2} />
 }
 
 const containerVariants = {
@@ -43,7 +34,7 @@ export function WeddingGiftsSection() {
           fill
           className="object-cover"
           sizes="100vw"
-          quality={85}
+          quality={100}
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(42,37,32,0.3)_0%,rgba(42,37,32,0.55)_50%,rgba(42,37,32,0.4)_100%)]" />
       </div>
