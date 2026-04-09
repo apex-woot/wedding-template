@@ -15,20 +15,21 @@ import { WeddingGiftsSection } from "@/components/wedding-gifts-section";
 
 export default function Page() {
   return (
-    <main>
-      <BackgroundMusic />
-      <FloatingNav />
-      <HeroSection />
-      <InvitationSection />
-      <StoryCalendarSection />
-      <LocationSection />
-      <ProgramSection />
-      <DressCodeSection />
-      <WeddingGiftsSection />
-      <TransferSection />
-      <AccommodationSection />
-      <RsvpSection />
-      <FooterSection />
-    </main>
+    <BackgroundMusic>
+      <main>
+        <FloatingNav />
+        <HeroSection />
+        <InvitationSection />
+        <StoryCalendarSection />
+        <LocationSection />
+        <ProgramSection />
+        <DressCodeSection />
+        <WeddingGiftsSection />
+        <TransferSection />
+        <AccommodationSection />
+        <RsvpSection />
+        <FooterSection />
+      </main>
+    </BackgroundMusic>
   );
 }

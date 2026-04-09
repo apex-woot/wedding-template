@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
-export function BackgroundMusic() {
+export function BackgroundMusic({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
   const [phase, setPhase] = useState<"idle" | "exiting" | "done">("idle")
@@ -14,7 +14,7 @@ export function BackgroundMusic() {
     const audio = new Audio("/birds-of-a-feather.mp3")
     audio.loop = true
     audio.volume = 0.3
-    audio.preload = "auto"
+    audio.preload = "none"
     audioRef.current = audio
 
     return () => {
@@ -43,6 +43,8 @@ export function BackgroundMusic() {
 
   return (
     <>
+      {phase !== "idle" && children}
+
       <AnimatePresence>
         {phase !== "done" && (
           <motion.div
