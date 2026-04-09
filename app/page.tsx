@@ -1,4 +1,5 @@
 import { AccommodationSection } from "@/components/accommodation-section";
+import { BackgroundMusic } from "@/components/background-music";
 import { DressCodeSection } from "@/components/dress-code-section";
 import { FloatingNav } from "@/components/floating-nav";
 import { FooterSection } from "@/components/footer-section";
@@ -15,6 +16,7 @@ import { WeddingGiftsSection } from "@/components/wedding-gifts-section";
 export default function Page() {
   return (
     <main>
+      <BackgroundMusic />
       <FloatingNav />
       <HeroSection />
       <InvitationSection />
