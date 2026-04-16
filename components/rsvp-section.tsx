@@ -427,22 +427,34 @@ export function RsvpSection() {
                   {
                     id: "attending",
                     field: "attending" as const,
-                    label: t.rsvp.attending,
+                    label:
+                      form.partyType === "single"
+                        ? t.rsvp.attendingSingle
+                        : t.rsvp.attending,
                   },
                   {
                     id: "hotel-booking",
                     field: "hotelBooking" as const,
-                    label: t.rsvp.hotelBooking,
+                    label:
+                      form.partyType === "single"
+                        ? t.rsvp.hotelBookingSingle
+                        : t.rsvp.hotelBooking,
                   },
                   {
                     id: "transfer-needed",
                     field: "transferNeeded" as const,
-                    label: t.rsvp.transferNeeded,
+                    label:
+                      form.partyType === "single"
+                        ? t.rsvp.transferNeededSingle
+                        : t.rsvp.transferNeeded,
                   },
                   {
                     id: "attending-church",
                     field: "attendingChurch" as const,
-                    label: t.rsvp.attendingChurch,
+                    label:
+                      form.partyType === "single"
+                        ? t.rsvp.attendingChurchSingle
+                        : t.rsvp.attendingChurch,
                   },
                 ].map(({ id, field, label }) => (
                   <Fragment key={id}>
