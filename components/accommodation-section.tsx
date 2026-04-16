@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import type { ComponentType } from "react"
+import { type ComponentType, useEffect, useState } from "react"
 import { LuHotel, LuHouse, LuUser, LuUsers } from "react-icons/lu"
 import { useTranslation } from "@/components/i18n-provider"
 import type { Locale } from "@/lib/i18n"
@@ -17,8 +17,15 @@ const roomIcons: ComponentType<{
   "aria-hidden"?: boolean
 }>[] = [LuUser, LuUsers, LuHouse]
 
+type RoomKey = "double" | "triple" | "house"
+
+const roomKeys: readonly RoomKey[] = ["double", "triple", "house"] as const
 const roomPrices = [2500, 2700, 5000] as const
-const roomAvailability = [6, 4, 1] as const
+const roomInventory: Record<RoomKey, number> = { double: 6, triple: 4, house: 1 }
+
+type BookedCounts = Record<RoomKey, number>
+
+const emptyBooked: BookedCounts = { double: 0, triple: 0, house: 0 }
 
 function formatPrice(value: number, locale: Locale): string {
   const lang = locale === "en" ? "en-US" : "uk-UA"
@@ -49,6 +56,25 @@ const itemVariants = {
 
 export function AccommodationSection() {
   const { t, locale } = useTranslation()
+  const [booked, setBooked] = useState<BookedCounts>(emptyBooked)
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    fetch("/api/rooms", { signal: controller.signal, cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { booked?: Partial<BookedCounts> } | null) => {
+        if (!data?.booked) return
+        setBooked({
+          double: data.booked.double ?? 0,
+          triple: data.booked.triple ?? 0,
+          house: data.booked.house ?? 0,
+        })
+      })
+      .catch(() => {})
+
+    return () => controller.abort()
+  }, [])
 
   return (
     <section
@@ -106,7 +132,8 @@ export function AccommodationSection() {
         >
           {t.accommodation.rooms.map((room, index) => {
             const Icon = roomIcons[index] ?? LuUser
-            const available = roomAvailability[index] ?? 0
+            const key = roomKeys[index] ?? "double"
+            const available = Math.max(0, roomInventory[key] - booked[key])
             const price = roomPrices[index] ?? 0
             const soldOut = available <= 0
 
