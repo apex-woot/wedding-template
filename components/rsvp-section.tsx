@@ -1,6 +1,6 @@
 "use client"
 
-import { type FormEvent, useState } from "react"
+import { type FormEvent, Fragment, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
+type RoomType = "" | "double" | "triple" | "house"
+
 type RsvpFormState = {
   familySurname: string
   attending: boolean
@@ -24,6 +26,7 @@ type RsvpFormState = {
   adultsCount: number
   transferNeeded: boolean
   attendingChurch: boolean
+  roomType: RoomType
 }
 
 const initialState: RsvpFormState = {
@@ -34,7 +37,14 @@ const initialState: RsvpFormState = {
   adultsCount: 2,
   transferNeeded: false,
   attendingChurch: false,
+  roomType: "",
 }
+
+const roomOptions: { value: Exclude<RoomType, "">; title: string; capacity: string }[] = [
+  { value: "double", title: "Двомісний", capacity: "на 2 особи" },
+  { value: "triple", title: "Тримісний", capacity: "на 3 особи" },
+  { value: "house", title: "Будиночок", capacity: "на 6 осіб" },
+]
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -97,6 +107,7 @@ export function RsvpSection() {
           hotelBooking: form.hotelBooking,
           transferNeeded: form.transferNeeded,
           attendingChurch: form.attendingChurch,
+          roomType: form.hotelBooking ? form.roomType : "",
         }),
       })
 
@@ -160,7 +171,7 @@ export function RsvpSection() {
                   htmlFor="family-surname"
                   className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
                 >
-                  Прізвище сім&rsquo;ї
+                  Імена та прізвища
                 </FieldLabel>
                 <Input
                   id="family-surname"
@@ -173,7 +184,7 @@ export function RsvpSection() {
                     }))
                     setSubmitted(false)
                   }}
-                  placeholder="Наприклад, родина Когутів"
+                  placeholder="Наприклад, Іван Когут та Марія Ковальчук"
                   className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] placeholder:text-[#A8BCA1]/55 transition-colors duration-500"
                 />
               </Field>
@@ -229,30 +240,97 @@ export function RsvpSection() {
                   { id: "transfer-needed", field: "transferNeeded" as const, label: "Нам потрібен трансфер" },
                   { id: "attending-church", field: "attendingChurch" as const, label: "Ми будемо присутні на церковній церемонії" },
                 ].map(({ id, field, label }) => (
-                  <motion.div
-                    key={id}
-                    whileHover={{ x: 6 }}
-                    transition={{ duration: 0.3, ease: easeOutExpo }}
-                  >
-                    <Field orientation="horizontal" className="items-center">
-                      <FieldLabel htmlFor={id} className="text-[#583C2A] cursor-pointer flex items-center gap-4">
-                        <Checkbox
-                          id={id}
-                          checked={form[field]}
-                          onCheckedChange={(checked) => {
-                            setBooleanField(field, checked === true)
-                            setSubmitted(false)
-                          }}
-                          className="size-[22px] rounded-sm border-[#A8BCA1] data-checked:border-[#583C2A] data-checked:bg-[#583C2A] transition-all duration-300"
-                        />
-                        <FieldContent>
-                          <FieldTitle className="text-[#364274] font-light text-[1.05rem]">
-                            {label}
-                          </FieldTitle>
-                        </FieldContent>
-                      </FieldLabel>
-                    </Field>
-                  </motion.div>
+                  <Fragment key={id}>
+                    <motion.div
+                      whileHover={{ x: 6 }}
+                      transition={{ duration: 0.3, ease: easeOutExpo }}
+                    >
+                      <Field orientation="horizontal" className="items-center">
+                        <FieldLabel htmlFor={id} className="text-[#583C2A] cursor-pointer flex items-center gap-4">
+                          <Checkbox
+                            id={id}
+                            checked={form[field]}
+                            onCheckedChange={(checked) => {
+                              setBooleanField(field, checked === true)
+                              setSubmitted(false)
+                            }}
+                            className="size-[22px] rounded-sm border-[#A8BCA1] data-checked:border-[#583C2A] data-checked:bg-[#583C2A] transition-all duration-300"
+                          />
+                          <FieldContent>
+                            <FieldTitle className="text-[#364274] font-light text-[1.05rem]">
+                              {label}
+                            </FieldTitle>
+                          </FieldContent>
+                        </FieldLabel>
+                      </Field>
+                    </motion.div>
+
+                    {field === "hotelBooking" && (
+                      <AnimatePresence initial={false}>
+                        {form.hotelBooking && (
+                          <motion.div
+                            key="room-type"
+                            initial={{ opacity: 0, height: 0, y: -6 }}
+                            animate={{ opacity: 1, height: "auto", y: 0 }}
+                            exit={{ opacity: 0, height: 0, y: -6 }}
+                            transition={{ duration: 0.45, ease: easeOutExpo }}
+                            className="overflow-hidden"
+                          >
+                            <fieldset className="ml-[38px] mt-2 mb-1 border-0 p-0">
+                              <legend className="mb-3 font-sans text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[#583C2A]/55">
+                                Тип номера
+                              </legend>
+                              <div className="grid gap-2 sm:grid-cols-3">
+                                {roomOptions.map((option) => {
+                                  const selected = form.roomType === option.value
+                                  const inputId = `room-type-${option.value}`
+                                  return (
+                                    <label
+                                      key={option.value}
+                                      htmlFor={inputId}
+                                      className={
+                                        selected
+                                          ? "flex cursor-pointer flex-col items-start rounded-xl border border-[#583C2A] bg-[#583C2A]/[0.06] px-4 py-3 text-left shadow-[0_10px_24px_-14px_rgba(88,60,42,0.35)] transition-all duration-300"
+                                          : "flex cursor-pointer flex-col items-start rounded-xl border border-[#D8DED5] bg-white/70 px-4 py-3 text-left transition-all duration-300 hover:border-[#A8BCA1] hover:bg-white"
+                                      }
+                                    >
+                                      <input
+                                        id={inputId}
+                                        type="radio"
+                                        name="roomType"
+                                        value={option.value}
+                                        checked={selected}
+                                        onChange={() => {
+                                          setForm((current) => ({
+                                            ...current,
+                                            roomType: option.value,
+                                          }))
+                                          setSubmitted(false)
+                                        }}
+                                        className="sr-only"
+                                      />
+                                      <span
+                                        className={
+                                          selected
+                                            ? "font-display text-[1.05rem] font-medium tracking-[-0.01em] text-[#364274]"
+                                            : "font-display text-[1.05rem] font-medium tracking-[-0.01em] text-[#583C2A]"
+                                        }
+                                      >
+                                        {option.title}
+                                      </span>
+                                      <span className="font-sans text-[0.72rem] tracking-[0.08em] text-[#583C2A]/60">
+                                        {option.capacity}
+                                      </span>
+                                    </label>
+                                  )
+                                })}
+                              </div>
+                            </fieldset>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    )}
+                  </Fragment>
                 ))}
               </div>
 

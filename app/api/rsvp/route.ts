@@ -24,6 +24,13 @@ function clampInt(value: unknown, min: number, max: number, fallback: number): n
   return Math.max(min, Math.min(max, Math.round(n)))
 }
 
+const ALLOWED_ROOM_TYPES = new Set(["", "double", "triple", "house"])
+
+function normalizeRoomType(value: unknown): string {
+  if (typeof value !== "string") return ""
+  return ALLOWED_ROOM_TYPES.has(value) ? value : ""
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -33,14 +40,18 @@ export async function POST(request: NextRequest) {
     if (!isValidSurname(surname))
       return NextResponse.json({ error: "Некоректне прізвище." }, { status: 400 })
 
+    const hotelBooking = Boolean(body.hotelBooking)
+    const roomType = hotelBooking ? normalizeRoomType(body.roomType) : ""
+
     const { data, error } = await getSupabase().rpc("submit_rsvp", {
       p_family_surname: surname,
       p_adults_count: clampInt(body.adultsCount, 1, 20, 2),
       p_children_count: clampInt(body.childrenCount, 0, 20, 0),
       p_attending: Boolean(body.attending),
-      p_hotel_booking: Boolean(body.hotelBooking),
+      p_hotel_booking: hotelBooking,
       p_transfer_needed: Boolean(body.transferNeeded),
       p_attending_church: Boolean(body.attendingChurch),
+      p_room_type: roomType,
       p_ip: ip,
     })
 
