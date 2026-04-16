@@ -122,6 +122,14 @@ export function AccommodationSection() {
           включено у вартість.
         </motion.p>
 
+        <motion.p
+          variants={itemVariants}
+          className="mx-auto mt-4 max-w-[34rem] text-balance font-sans text-[0.95rem] leading-[1.75] font-light italic text-[#583C2A]/70"
+        >
+          Поправини відбудуться наступного дня на тій самій локації в заздалегідь
+          заброньованій альтанці.
+        </motion.p>
+
         <motion.ul
           variants={itemVariants}
           className="mt-10 grid gap-4 text-left md:mt-12 md:grid-cols-3"
