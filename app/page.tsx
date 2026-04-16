@@ -4,6 +4,7 @@ import { DressCodeSection } from "@/components/dress-code-section";
 import { FloatingNav } from "@/components/floating-nav";
 import { FooterSection } from "@/components/footer-section";
 import { InvitationSection } from "@/components/invitation-section";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { LocationSection } from "@/components/location-section";
 import { ProgramSection } from "@/components/program-section";
 import { RsvpSection } from "@/components/rsvp-section";
@@ -15,21 +16,24 @@ import { WeddingGiftsSection } from "@/components/wedding-gifts-section";
 
 export default function Page() {
   return (
-    <BackgroundMusic>
-      <main>
-        <FloatingNav />
-        <HeroSection />
-        <InvitationSection />
-        <StoryCalendarSection />
-        <LocationSection />
-        <ProgramSection />
-        <DressCodeSection />
-        <WeddingGiftsSection />
-        <TransferSection />
-        <AccommodationSection />
-        <RsvpSection />
-        <FooterSection />
-      </main>
-    </BackgroundMusic>
+    <>
+      <LanguageSwitcher />
+      <BackgroundMusic>
+        <main>
+          <FloatingNav />
+          <HeroSection />
+          <InvitationSection />
+          <StoryCalendarSection />
+          <LocationSection />
+          <ProgramSection />
+          <DressCodeSection />
+          <WeddingGiftsSection />
+          <TransferSection />
+          <AccommodationSection />
+          <RsvpSection />
+          <FooterSection />
+        </main>
+      </BackgroundMusic>
+    </>
   );
 }

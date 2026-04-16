@@ -13,10 +13,13 @@ import {
   FieldTitle,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { useTranslation } from "@/components/i18n-provider"
+import type { Dict } from "@/lib/i18n"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 type RoomType = "" | "double" | "triple" | "house"
+type ErrorCode = keyof Dict["rsvp"]["errors"]
 
 type RsvpFormState = {
   familySurname: string
@@ -40,11 +43,19 @@ const initialState: RsvpFormState = {
   roomType: "",
 }
 
-const roomOptions: { value: Exclude<RoomType, "">; title: string; capacity: string }[] = [
-  { value: "double", title: "Двомісний", capacity: "на 2 особи" },
-  { value: "triple", title: "Тримісний", capacity: "на 3 особи" },
-  { value: "house", title: "Будиночок", capacity: "на 6 осіб" },
-]
+const ERROR_CODES: readonly ErrorCode[] = [
+  "duplicate",
+  "rateLimit",
+  "validation",
+  "surnameInvalid",
+  "generic",
+] as const
+
+function toErrorCode(value: unknown): ErrorCode {
+  return typeof value === "string" && (ERROR_CODES as readonly string[]).includes(value)
+    ? (value as ErrorCode)
+    : "generic"
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -62,10 +73,11 @@ const itemVariants = {
 }
 
 export function RsvpSection() {
+  const { t } = useTranslation()
   const [form, setForm] = useState<RsvpFormState>(initialState)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [errorCode, setErrorCode] = useState<ErrorCode | null>(null)
 
   function setBooleanField(
     field: keyof Pick<
@@ -93,7 +105,7 @@ export function RsvpSection() {
     event.preventDefault()
     if (!form.familySurname.trim()) return
     setSubmitting(true)
-    setError(null)
+    setErrorCode(null)
 
     try {
       const res = await fetch("/api/rsvp", {
@@ -114,12 +126,12 @@ export function RsvpSection() {
       const data = await res.json()
 
       if (!res.ok) {
-        setError(data.error ?? "Щось пішло не так. Спробуйте ще раз.")
+        setErrorCode(toErrorCode(data.code))
         return
       }
       setSubmitted(true)
     } catch {
-      setError("Щось пішло не так. Спробуйте ще раз.")
+      setErrorCode("generic")
     } finally {
       setSubmitting(false)
     }
@@ -128,7 +140,7 @@ export function RsvpSection() {
   return (
     <section
       id="rsvp"
-      aria-label="RSVP"
+      aria-label={t.nav.rsvp}
       className="min-h-[max(100svh,720px)] relative overflow-hidden bg-[#F7F6F2] px-4 pt-[clamp(6rem,12vw,10rem)] pb-[clamp(8rem,15vw,12rem)]"
     >
       <div className="absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,#F7F6F2_0%,rgba(245,244,240,0)_100%)]" />
@@ -146,7 +158,7 @@ export function RsvpSection() {
             variants={itemVariants}
             className="font-display text-[clamp(2.7rem,8vw,4.4rem)] leading-[0.95] font-medium tracking-[-0.025em] text-[#364274]"
           >
-            <span className="italic">Ваша відповідь</span>
+            <span className="italic">{t.rsvp.title}</span>
           </motion.h2>
           <motion.div
             variants={itemVariants}
@@ -156,7 +168,7 @@ export function RsvpSection() {
             variants={itemVariants}
             className="mx-auto mt-6 max-w-[28rem] text-balance font-sans text-[clamp(0.95rem,2.5vw,1.1rem)] leading-[1.85] text-[#583C2A] font-light"
           >
-            Будь ласка, заповніть одну форму на пару або сім&rsquo;ю.
+            {t.rsvp.subtitle}
           </motion.p>
         </div>
 
@@ -171,7 +183,7 @@ export function RsvpSection() {
                   htmlFor="family-surname"
                   className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
                 >
-                  Імена та прізвища
+                  {t.rsvp.nameLabel}
                 </FieldLabel>
                 <Input
                   id="family-surname"
@@ -184,7 +196,7 @@ export function RsvpSection() {
                     }))
                     setSubmitted(false)
                   }}
-                  placeholder="Наприклад, Іван Когут та Марія Ковальчук"
+                  placeholder={t.rsvp.namePlaceholder}
                   className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] placeholder:text-[#A8BCA1]/55 transition-colors duration-500"
                 />
               </Field>
@@ -195,7 +207,7 @@ export function RsvpSection() {
                     htmlFor="adults-count"
                     className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
                   >
-                    Кількість дорослих
+                    {t.rsvp.adults}
                   </FieldLabel>
                   <Input
                     id="adults-count"
@@ -216,7 +228,7 @@ export function RsvpSection() {
                     htmlFor="children-count"
                     className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
                   >
-                    Кількість дітей
+                    {t.rsvp.children}
                   </FieldLabel>
                   <Input
                     id="children-count"
@@ -235,10 +247,10 @@ export function RsvpSection() {
 
               <div className="mt-6 pt-10 border-t border-[#D8DED5]/55 grid gap-6">
                 {[
-                  { id: "attending", field: "attending" as const, label: "Ми будемо присутні" },
-                  { id: "hotel-booking", field: "hotelBooking" as const, label: "Ми будемо бронювати номер у готелі" },
-                  { id: "transfer-needed", field: "transferNeeded" as const, label: "Нам потрібен трансфер" },
-                  { id: "attending-church", field: "attendingChurch" as const, label: "Ми будемо присутні на церковній церемонії" },
+                  { id: "attending", field: "attending" as const, label: t.rsvp.attending },
+                  { id: "hotel-booking", field: "hotelBooking" as const, label: t.rsvp.hotelBooking },
+                  { id: "transfer-needed", field: "transferNeeded" as const, label: t.rsvp.transferNeeded },
+                  { id: "attending-church", field: "attendingChurch" as const, label: t.rsvp.attendingChurch },
                 ].map(({ id, field, label }) => (
                   <Fragment key={id}>
                     <motion.div
@@ -278,15 +290,16 @@ export function RsvpSection() {
                           >
                             <fieldset className="ml-[38px] mt-2 mb-1 border-0 p-0">
                               <legend className="mb-3 font-sans text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[#583C2A]/55">
-                                Тип номера
+                                {t.rsvp.roomType}
                               </legend>
                               <div className="grid gap-2 sm:grid-cols-3">
-                                {roomOptions.map((option) => {
-                                  const selected = form.roomType === option.value
-                                  const inputId = `room-type-${option.value}`
+                                {t.rsvp.roomOptions.map((option) => {
+                                  const value = option.value as Exclude<RoomType, "">
+                                  const selected = form.roomType === value
+                                  const inputId = `room-type-${value}`
                                   return (
                                     <label
-                                      key={option.value}
+                                      key={value}
                                       htmlFor={inputId}
                                       className={
                                         selected
@@ -298,12 +311,12 @@ export function RsvpSection() {
                                         id={inputId}
                                         type="radio"
                                         name="roomType"
-                                        value={option.value}
+                                        value={value}
                                         checked={selected}
                                         onChange={() => {
                                           setForm((current) => ({
                                             ...current,
-                                            roomType: option.value,
+                                            roomType: value,
                                           }))
                                           setSubmitted(false)
                                         }}
@@ -346,17 +359,17 @@ export function RsvpSection() {
                     disabled={submitting}
                     className="h-14 w-full md:w-auto min-w-[220px] rounded-full bg-gradient-to-br from-[#4A5790] to-[#364274] px-12 text-[0.78rem] font-medium uppercase tracking-[0.25em] text-[#FAF9F6] shadow-[0_24px_50px_-12px_rgba(54,66,116,0.45),inset_0_1px_0_rgba(255,255,255,0.18)] hover:shadow-[0_30px_60px_-12px_rgba(54,66,116,0.6),inset_0_1px_0_rgba(255,255,255,0.18)] hover:from-[#566AAF] hover:to-[#3D4C82] transition-all duration-500 disabled:opacity-50"
                   >
-                    {submitting ? "Надсилаємо..." : "Надіслати"}
+                    {submitting ? t.rsvp.submitting : t.rsvp.submit}
                   </Button>
                 </motion.div>
 
                 <FieldDescription className="text-center text-[#A8BCA1]/75 text-[0.62rem] font-medium tracking-[0.18em] uppercase">
-                  Однієї відповіді на одне запрошення достатньо
+                  {t.rsvp.footerNote}
                 </FieldDescription>
               </div>
 
               <AnimatePresence>
-                {error && (
+                {errorCode && (
                   <motion.div
                     initial={{ opacity: 0, height: 0, y: 10 }}
                     animate={{ opacity: 1, height: "auto", y: 0 }}
@@ -365,7 +378,7 @@ export function RsvpSection() {
                     className="mt-4 overflow-hidden"
                   >
                     <div className="rounded-md border border-red-200 bg-red-50/80 backdrop-blur-sm px-6 py-5 text-center font-sans text-sm text-red-700 tracking-wide">
-                      {error}
+                      {t.rsvp.errors[errorCode]}
                     </div>
                   </motion.div>
                 )}
@@ -378,7 +391,7 @@ export function RsvpSection() {
                     className="mt-4 overflow-hidden"
                   >
                     <div className="rounded-md border border-[#D8DED5] bg-[#FCFBF8]/80 backdrop-blur-sm px-6 py-5 text-center font-sans text-sm text-[#364274] tracking-wide">
-                      Дякуємо. Ваша відповідь успішно передана.
+                      {t.rsvp.success}
                     </div>
                   </motion.div>
                 )}

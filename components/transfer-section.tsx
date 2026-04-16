@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { LuBusFront } from "react-icons/lu"
+import { useTranslation } from "@/components/i18n-provider"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
@@ -28,6 +29,7 @@ const itemVariants = {
 }
 
 export function TransferSection() {
+  const { t } = useTranslation()
   return (
     <section
       aria-labelledby="transfer-title"
@@ -53,7 +55,7 @@ export function TransferSection() {
           variants={itemVariants}
           className="font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.5em] text-[#583C2A]/45 mb-3"
         >
-          у дорозі
+          {t.transfer.kicker}
         </motion.p>
 
         <motion.h2
@@ -61,14 +63,14 @@ export function TransferSection() {
           id="transfer-title"
           className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#364274]"
         >
-          Трансфер
+          {t.transfer.title}
         </motion.h2>
 
         <motion.p
           variants={itemVariants}
           className="mx-auto mt-5 max-w-[34rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.85] font-light text-[#583C2A]"
         >
-          Буде організовано трансфер від церкви Святої Анни до ресторану та назад до Львова після святкування.
+          {t.transfer.desc}
         </motion.p>
       </motion.div>
     </section>

@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import dynamic from "next/dynamic"
 import { useRef } from "react"
+import { useTranslation } from "@/components/i18n-provider"
 
 const OrbitingRings = dynamic(
   () => import("./orbiting-rings").then((m) => m.OrbitingRings),
@@ -10,8 +11,6 @@ const OrbitingRings = dynamic(
 )
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
-
-const daysOfWeek = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"]
 
 const weeks = [
   [null, null, 1, 2, 3, 4, 5],
@@ -39,6 +38,7 @@ const calendarCellVariants = {
 }
 
 export function StoryCalendarSection() {
+  const { t } = useTranslation()
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
   const heroY = useTransform(scrollYProgress, [0, 1], ["12%", "-12%"])
@@ -61,7 +61,7 @@ export function StoryCalendarSection() {
           className="text-center"
         >
           <p className="font-sans text-[0.62rem] font-medium uppercase tracking-[0.55em] text-[#583C2A]/45 md:text-[0.72rem]">
-            збережіть дату
+            {t.story.kicker}
           </p>
         </motion.div>
 
@@ -97,7 +97,7 @@ export function StoryCalendarSection() {
                 viewport={{ once: true }}
                 className="mt-1 font-sans text-[clamp(0.7rem,2vw,0.9rem)] md:text-[1.2rem] font-medium uppercase text-[#583C2A]/45"
               >
-                липня
+                {t.story.month}
               </motion.span>
             </div>
           </div>
@@ -114,9 +114,9 @@ export function StoryCalendarSection() {
             id="date-story-title"
             className="font-display text-[clamp(1.5rem,4.2vw,2.4rem)] leading-[1.2] font-medium tracking-[-0.012em] text-[#583C2A]"
           >
-            В цей день починається
+            {t.story.titleL1}
             <br />
-            <span className="italic text-[#364274]">наше назавжди</span>
+            <span className="italic text-[#364274]">{t.story.titleL2}</span>
           </h2>
         </motion.div>
 
@@ -135,10 +135,10 @@ export function StoryCalendarSection() {
           viewport={{ once: true, margin: "-40px" }}
           className="mx-auto mt-8 max-w-[22rem] md:mt-12 md:max-w-[34rem]"
           role="img"
-          aria-label="Календар на липень 2026 року, де 11 число виділено як день весілля"
+          aria-label={t.story.aria}
         >
           <div className="grid grid-cols-7 gap-x-1 mb-3">
-            {daysOfWeek.map((day) => (
+            {t.story.days.map((day) => (
               <span
                 key={day}
                 className="text-center font-sans text-[0.58rem] md:text-[0.8rem] font-semibold uppercase tracking-[0.18em] text-[#583C2A]/30"

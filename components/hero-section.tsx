@@ -4,6 +4,7 @@ import Image from "next/image"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import dynamic from "next/dynamic"
+import { useTranslation } from "@/components/i18n-provider"
 
 const AmbientParticles = dynamic(
   () => import("./ambient-particles").then((m) => m.AmbientParticles),
@@ -13,6 +14,7 @@ const AmbientParticles = dynamic(
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 export function HeroSection() {
+  const { t } = useTranslation()
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -28,7 +30,7 @@ export function HeroSection() {
     <section
       ref={ref}
       id="hero"
-      aria-label="Головний екран весільного запрошення"
+      aria-label={t.hero.aria}
       className="relative min-h-svh overflow-hidden bg-[#8FACC2]"
     >
       <motion.div
@@ -89,7 +91,7 @@ export function HeroSection() {
               transition={{ duration: 1.8, delay: 1.1, ease: easeOutExpo }}
               className="font-display text-[clamp(2.6rem,9vw,5rem)] leading-[0.95] font-light tracking-[-0.02em] text-white [text-shadow:0_4px_40px_rgba(0,0,0,0.25)] md:text-[clamp(3.8rem,7vw,6rem)]"
             >
-              Віталій
+              {t.hero.name1}
             </motion.h1>
           </div>
 
@@ -112,7 +114,7 @@ export function HeroSection() {
               transition={{ duration: 1.4, delay: 2.05, ease: easeOutExpo }}
               className="shrink-0 font-display italic text-[clamp(0.95rem,2.5vw,1.25rem)] font-light text-white/65"
             >
-              та
+              {t.common.and}
             </motion.span>
             <motion.div
               initial={{ scaleX: 0 }}
@@ -130,7 +132,7 @@ export function HeroSection() {
               transition={{ duration: 1.8, delay: 1.35, ease: easeOutExpo }}
               className="font-display text-[clamp(2.6rem,9vw,5rem)] leading-[0.95] font-light tracking-[-0.02em] text-white [text-shadow:0_4px_40px_rgba(0,0,0,0.25)] md:text-[clamp(3.8rem,7vw,6rem)]"
             >
-              Тетяна
+              {t.hero.name2}
             </motion.h1>
           </div>
         </div>
@@ -144,7 +146,7 @@ export function HeroSection() {
           className="pb-[clamp(2.5rem,5svh,4rem)] flex flex-col items-center gap-[clamp(1.2rem,3svh,2rem)]"
         >
           <p className="font-display text-[clamp(0.78rem,2vw,0.95rem)] font-light tracking-[0.4em] text-[#2A2520]/55">
-            11 · 07 · 2026 &nbsp;·&nbsp; ЛЬВІВ
+            {t.hero.date}
           </p>
           <motion.div
             initial={{ opacity: 0, scaleY: 0 }}

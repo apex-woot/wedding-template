@@ -5,6 +5,7 @@ import { useRef, type ComponentType, type SVGProps } from "react"
 import { LuCake, LuCamera, LuMapPin } from "react-icons/lu"
 import { PiChampagne } from "react-icons/pi"
 import { GiBigDiamondRing } from "react-icons/gi"
+import { useTranslation } from "@/components/i18n-provider"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
@@ -18,18 +19,7 @@ const iconMap: Record<IconKind, ComponentType<SVGProps<SVGSVGElement>>> = {
   cake: LuCake,
 }
 
-const programItems: ReadonlyArray<{
-  time: string
-  title: string
-  details: string
-  icon: IconKind
-}> = [
-  { time: "11:30", title: "Шлюб", details: "Церква Святої Анни, вул. Городоцька, 32", icon: "rings" },
-  { time: "14:00", title: "Прибуття гостей до локації", details: "", icon: "pin" },
-  { time: "15:30", title: "Церемонія", details: "", icon: "camera" },
-  { time: "16:00", title: "Святковий банкет", details: "", icon: "glasses" },
-  { time: "19:00", title: "Весільний торт", details: "", icon: "cake" },
-]
+const iconsByIndex: IconKind[] = ["rings", "pin", "camera", "glasses", "cake"]
 
 function ProgramIcon({ icon }: { icon: IconKind }) {
   const Icon = iconMap[icon]
@@ -47,6 +37,7 @@ const timelineItemVariants = {
 }
 
 export function ProgramSection() {
+  const { t } = useTranslation()
   const ref = useRef<HTMLElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -79,7 +70,7 @@ export function ProgramSection() {
           viewport={{ once: true }}
           className="text-center font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.5em] text-[#583C2A]/45 mb-3"
         >
-          день за хвилинами
+          {t.program.kicker}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
@@ -89,7 +80,7 @@ export function ProgramSection() {
           id="program-title"
           className="m-0 text-center font-display text-[clamp(2.9rem,8vw,4.8rem)] uppercase tracking-[0.08em] text-[#364274]"
         >
-          Програма
+          {t.program.title}
         </motion.h2>
 
         <div ref={lineRef} className="relative mt-10 md:mt-14 mx-auto w-fit">
@@ -106,7 +97,7 @@ export function ProgramSection() {
             transition={{ staggerChildren: 0.15, delayChildren: 0.2 }}
             className="grid gap-10 md:gap-12"
           >
-            {programItems.map((item) => (
+            {t.program.items.map((item, index) => (
               <motion.article
                 key={item.time}
                 variants={timelineItemVariants}
@@ -115,7 +106,7 @@ export function ProgramSection() {
                 className="grid grid-cols-[5.25rem_1.25rem_1fr] items-center gap-x-4 md:grid-cols-[8rem_2.5rem_1fr] md:gap-x-8 group cursor-default"
               >
                 <div className="flex justify-center text-[#8FACC2] transition-colors duration-500 group-hover:text-[#583C2A]">
-                  <ProgramIcon icon={item.icon} />
+                  <ProgramIcon icon={iconsByIndex[index] ?? "pin"} />
                 </div>
 
                 <div className="relative flex h-full justify-center">

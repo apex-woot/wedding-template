@@ -9,6 +9,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
 }
+import { I18nProvider } from "@/components/i18n-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
@@ -51,7 +52,9 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <TooltipProvider>{children}</TooltipProvider>
+          <I18nProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

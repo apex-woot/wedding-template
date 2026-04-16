@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import { useRef } from "react"
+import { useTranslation } from "@/components/i18n-provider"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
@@ -25,6 +26,7 @@ const itemVariants = {
 }
 
 export function InvitationSection() {
+  const { t } = useTranslation()
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -66,7 +68,7 @@ export function InvitationSection() {
                 <Image
                   quality={100}
                   src="/IMG_8335.JPG"
-                  alt="Пара тримається за руки"
+                  alt={t.invitation.photoAlt}
                   fill
                   sizes="(max-width: 768px) 88vw, 512px"
                   className="object-cover object-center scale-[1.15] filter-[grayscale(0.1)_saturate(0.9)_contrast(1.05)_brightness(1.02)]"
@@ -89,7 +91,7 @@ export function InvitationSection() {
                 variants={itemVariants}
                 className="font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.5em] text-[#583C2A]/45"
               >
-                запрошення
+                {t.invitation.kicker}
               </motion.div>
 
               <motion.h2
@@ -97,7 +99,7 @@ export function InvitationSection() {
                 id="invitation-title"
                 className="m-0 font-display text-[clamp(2.6rem,7.5vw,3.8rem)] leading-[0.96] font-medium tracking-[-0.025em] text-[#364274]"
               >
-                Дорогі гості!
+                {t.invitation.title}
               </motion.h2>
 
               <div className="space-y-5">
@@ -105,16 +107,14 @@ export function InvitationSection() {
                   variants={itemVariants}
                   className="m-0 max-w-[28ch] mx-auto text-balance font-sans text-[clamp(1.05rem,2.5vw,1.2rem)] leading-[1.85] font-light text-[#583C2A]"
                 >
-                  У нашому житті настає особливий день — день, коли ми станемо
-                  сім&rsquo;єю.
+                  {t.invitation.p1}
                 </motion.p>
 
                 <motion.p
                   variants={itemVariants}
                   className="m-0 max-w-[28ch] mx-auto text-balance font-sans text-[clamp(1.05rem,2.5vw,1.2rem)] leading-[1.85] font-light text-[#583C2A]"
                 >
-                  Ми щиро хочемо розділити цю радість разом із вами та зробити
-                  цей день теплим, щирим і незабутнім.
+                  {t.invitation.p2}
                 </motion.p>
               </div>
 

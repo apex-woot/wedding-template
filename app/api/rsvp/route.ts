@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
     const surname = sanitize(String(body.familySurname ?? ""))
     if (!isValidSurname(surname))
-      return NextResponse.json({ error: "Некоректне прізвище." }, { status: 400 })
+      return NextResponse.json({ code: "surnameInvalid" }, { status: 400 })
 
     const hotelBooking = Boolean(body.hotelBooking)
     const roomType = hotelBooking ? normalizeRoomType(body.roomType) : ""
@@ -57,20 +57,20 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error("rsvp rpc error:", error)
-      return NextResponse.json({ error: "Щось пішло не так. Спробуйте ще раз." }, { status: 500 })
+      return NextResponse.json({ code: "generic" }, { status: 500 })
     }
 
     if (data === "duplicate")
-      return NextResponse.json({ error: "Відповідь від цієї сім'ї вже була надіслана." }, { status: 409 })
+      return NextResponse.json({ code: "duplicate" }, { status: 409 })
     if (data === "rate_limit")
-      return NextResponse.json({ error: "Забагато запитів. Зачекайте хвилину та спробуйте знову." }, { status: 429 })
+      return NextResponse.json({ code: "rateLimit" }, { status: 429 })
     if (data === "validation")
-      return NextResponse.json({ error: "Некоректні дані." }, { status: 400 })
+      return NextResponse.json({ code: "validation" }, { status: 400 })
     if (data === "error")
-      return NextResponse.json({ error: "Щось пішло не так. Спробуйте ще раз." }, { status: 500 })
+      return NextResponse.json({ code: "generic" }, { status: 500 })
 
     return NextResponse.json({ ok: true })
   } catch {
-    return NextResponse.json({ error: "Щось пішло не так. Спробуйте ще раз." }, { status: 500 })
+    return NextResponse.json({ code: "generic" }, { status: 500 })
   }
 }

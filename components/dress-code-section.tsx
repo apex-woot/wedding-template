@@ -1,16 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useTranslation } from "@/components/i18n-provider"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
-const dressCodeColors = [
-  { hex: "#8FACC2", name: "небесний" },
-  { hex: "#364274", name: "темно-синій" },
-  { hex: "#583C2A", name: "теплий брунатний" },
-  { hex: "#A8BCA1", name: "шавлія" },
-  { hex: "#F7F6F2", name: "слонова кість" },
-] as const
+const dressCodeHex = ["#8FACC2", "#364274", "#583C2A", "#A8BCA1", "#F7F6F2"] as const
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -41,6 +36,7 @@ const swatchVariants = {
 }
 
 export function DressCodeSection() {
+  const { t } = useTranslation()
   return (
     <section
       id="dress-code"
@@ -60,7 +56,7 @@ export function DressCodeSection() {
           variants={itemVariants}
           className="font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.5em] text-[#583C2A]/45 mb-3"
         >
-          палітра вечора
+          {t.dressCode.kicker}
         </motion.p>
 
         <motion.h2
@@ -68,21 +64,23 @@ export function DressCodeSection() {
           id="dress-code-title"
           className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#364274]"
         >
-          Дрес-код
+          {t.dressCode.title}
         </motion.h2>
 
         <motion.p
           variants={itemVariants}
           className="mx-auto mt-5 max-w-[28rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.85] font-light text-[#583C2A]"
         >
-          Ми будемо вдячні, якщо ви підтримаєте атмосферу свята та оберете вбрання у відповідній кольоровій гамі
+          {t.dressCode.desc}
         </motion.p>
 
         <motion.div
           variants={itemVariants}
           className="mt-10 flex flex-nowrap items-start justify-center gap-3 md:mt-12 md:gap-5"
         >
-          {dressCodeColors.map(({ hex, name }) => (
+          {dressCodeHex.map((hex, index) => {
+            const name = t.dressCode.colors[index] ?? ""
+            return (
             <motion.div
               key={hex}
               variants={swatchVariants}
@@ -100,7 +98,8 @@ export function DressCodeSection() {
                 {name}
               </span>
             </motion.div>
-          ))}
+            )
+          })}
         </motion.div>
       </motion.div>
     </section>

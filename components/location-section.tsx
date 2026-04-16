@@ -4,6 +4,7 @@ import Image from "next/image"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { LuNavigation } from "react-icons/lu"
+import { useTranslation } from "@/components/i18n-provider"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
@@ -32,6 +33,7 @@ const itemVariants = {
 }
 
 export function LocationSection() {
+  const { t } = useTranslation()
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -66,14 +68,14 @@ export function LocationSection() {
             variants={itemVariants}
             className="font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.5em] text-[#583C2A]/45 mb-4"
           >
-            де ми зустрінемось
+            {t.location.kicker}
           </motion.p>
           <motion.h2
             variants={itemVariants}
             id="location-title"
             className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#364274]"
           >
-            Локація
+            {t.location.title}
           </motion.h2>
           <motion.div
             variants={itemVariants}
@@ -81,7 +83,7 @@ export function LocationSection() {
           >
             <span className="h-[1px] w-8 bg-gradient-to-r from-transparent to-[#583C2A]/40" />
             <p className="font-sans text-[0.78rem] md:text-[0.95rem] font-medium tracking-[0.2em] text-[#583C2A] uppercase">
-              Явір Резорт
+              {t.location.venue}
             </p>
             <span className="h-[1px] w-8 bg-gradient-to-l from-transparent to-[#583C2A]/40" />
           </motion.div>
@@ -89,8 +91,7 @@ export function LocationSection() {
             variants={itemVariants}
             className="mt-5 text-balance font-sans text-[clamp(1rem,2.4vw,1.1rem)] leading-[1.85] font-light text-[#583C2A]"
           >
-            Церемонія відбудеться в церкві Святої Анни у Львові, а святкування
-            продовжиться в Явір Резорт.
+            {t.location.desc}
           </motion.p>
         </div>
 
@@ -108,7 +109,7 @@ export function LocationSection() {
               >
                 <Image
                   src={venuePhotoUrl}
-                  alt="Yavir Resort"
+                  alt={t.location.venue}
                   fill
                   sizes="(max-width: 1024px) 100vw, 1152px"
                   className="object-cover"
@@ -125,7 +126,7 @@ export function LocationSection() {
           >
             <div className="relative overflow-hidden rounded-[1.4rem] bg-[#D8DED5]">
               <iframe
-                title="Маршрут на Google Maps до Yavir Resort"
+                title={t.location.mapTitle}
                 src={embeddedMapUrl}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

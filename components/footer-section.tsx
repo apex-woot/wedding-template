@@ -5,6 +5,7 @@ import Image from "next/image"
 import dynamic from "next/dynamic"
 import { useMemo, useRef } from "react"
 import { PiHeartFill } from "react-icons/pi"
+import { useTranslation } from "@/components/i18n-provider"
 
 const AmbientParticles = dynamic(
   () => import("./ambient-particles").then((m) => m.AmbientParticles),
@@ -40,6 +41,7 @@ function useGlints(count: number): Glint[] {
 }
 
 export function FooterSection() {
+  const { t } = useTranslation()
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
   const bgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"])
@@ -131,7 +133,7 @@ export function FooterSection() {
           viewport={{ once: true }}
           className="font-display text-[clamp(1.9rem,5vw,2.8rem)] leading-[1] font-medium tracking-[-0.022em] text-white [text-shadow:0_4px_30px_rgba(0,0,0,0.3)]"
         >
-          Віталій <span className="italic font-light text-white/80">&amp;</span> Тетяна
+          {t.hero.name1} <span className="italic font-light text-white/80">&amp;</span> {t.hero.name2}
         </motion.p>
 
         <motion.p
@@ -141,7 +143,7 @@ export function FooterSection() {
           viewport={{ once: true }}
           className="mt-3 font-sans text-[0.66rem] font-medium uppercase tracking-[0.4em] text-white/55"
         >
-          11 липня 2026 &middot; Львів
+          {t.footer.date}
         </motion.p>
 
         <motion.p
@@ -151,7 +153,7 @@ export function FooterSection() {
           viewport={{ once: true }}
           className="mt-7 font-display italic text-[clamp(1rem,3vw,1.2rem)] font-normal text-white/55"
         >
-          З любов&rsquo;ю та вдячністю
+          {t.footer.outro}
         </motion.p>
       </motion.div>
     </footer>

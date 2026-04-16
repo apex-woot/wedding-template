@@ -4,6 +4,7 @@ import Image from "next/image"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { LuGift } from "react-icons/lu"
+import { useTranslation } from "@/components/i18n-provider"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
@@ -30,6 +31,7 @@ const itemVariants = {
 }
 
 export function WeddingGiftsSection() {
+  const { t } = useTranslation()
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
   const bgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"])
@@ -69,7 +71,7 @@ export function WeddingGiftsSection() {
           variants={itemVariants}
           className="font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.5em] text-white/55 mb-4"
         >
-          від щирого серця
+          {t.gifts.kicker}
         </motion.p>
 
         <motion.h2
@@ -77,7 +79,7 @@ export function WeddingGiftsSection() {
           id="wedding-gifts-title"
           className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-white [text-shadow:0_4px_40px_rgba(0,0,0,0.3)]"
         >
-          Наші побажання
+          {t.gifts.title}
         </motion.h2>
 
         <motion.div
@@ -89,14 +91,14 @@ export function WeddingGiftsSection() {
           variants={itemVariants}
           className="mx-auto mt-6 max-w-[32rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.14rem)] leading-[1.85] font-light text-white/85"
         >
-          Для нас найважливіше — це розділити з вами радість нашого дня.
+          {t.gifts.p1}
         </motion.p>
 
         <motion.p
           variants={itemVariants}
           className="mx-auto mt-4 max-w-[32rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.14rem)] leading-[1.85] font-light text-white/85"
         >
-          Якщо ви хочете нас підтримати, будемо раді грошовому подарунку, який допоможе здійснити наші спільні мрії.
+          {t.gifts.p2}
         </motion.p>
       </motion.div>
     </section>

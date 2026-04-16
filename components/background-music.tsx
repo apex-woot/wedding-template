@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useTranslation } from "@/components/i18n-provider"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 export function BackgroundMusic({ children }: { children: React.ReactNode }) {
+  const { t } = useTranslation()
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
   const [phase, setPhase] = useState<"idle" | "exiting" | "done">("idle")
@@ -91,7 +93,7 @@ export function BackgroundMusic({ children }: { children: React.ReactNode }) {
                 transition={{ duration: phase === "idle" ? 1 : 0.5, delay: phase === "idle" ? 0.5 : 0, ease: easeOutExpo }}
                 className="font-display text-[clamp(0.65rem,1.6vw,0.8rem)] font-light tracking-[0.5em] uppercase text-[#2A2520]/35"
               >
-                Весільне запрошення
+                {t.splash.subtitle}
               </motion.p>
 
               {/* names — split and fly apart on exit */}
@@ -108,7 +110,7 @@ export function BackgroundMusic({ children }: { children: React.ReactNode }) {
                   }}
                   className="font-display text-[clamp(2.8rem,9vw,5rem)] leading-[0.95] font-light tracking-[-0.02em] text-[#2A2520]"
                 >
-                  Віталій
+                  {t.hero.name1}
                 </motion.h1>
 
                 <motion.span
@@ -123,7 +125,7 @@ export function BackgroundMusic({ children }: { children: React.ReactNode }) {
                   }}
                   className="font-display text-[clamp(0.9rem,2.2vw,1.15rem)] font-light italic text-[#2A2520]/40"
                 >
-                  та
+                  {t.common.and}
                 </motion.span>
 
                 <motion.h1
@@ -138,7 +140,7 @@ export function BackgroundMusic({ children }: { children: React.ReactNode }) {
                   }}
                   className="font-display text-[clamp(2.8rem,9vw,5rem)] leading-[0.95] font-light tracking-[-0.02em] text-[#2A2520]"
                 >
-                  Тетяна
+                  {t.hero.name2}
                 </motion.h1>
               </div>
 
@@ -178,7 +180,7 @@ export function BackgroundMusic({ children }: { children: React.ReactNode }) {
                 onClick={enter}
                 className="mt-12 rounded-full border border-[#2A2520]/15 px-8 py-3 font-display text-[clamp(0.65rem,1.5vw,0.78rem)] font-light tracking-[0.3em] uppercase text-[#2A2520]/60 transition-all hover:border-[#2A2520]/30 hover:text-[#2A2520] hover:shadow-[0_0_30px_rgba(42,37,32,0.06)]"
               >
-                Відкрити запрошення
+                {t.splash.open}
               </motion.button>
             </div>
 
@@ -201,7 +203,7 @@ export function BackgroundMusic({ children }: { children: React.ReactNode }) {
             transition={{ delay: 0.3 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={toggle}
-            aria-label={playing ? "Вимкнути музику" : "Увімкнути музику"}
+            aria-label={playing ? t.splash.musicOn : t.splash.musicOff}
             className="fixed bottom-6 right-6 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 shadow-lg backdrop-blur-sm transition-colors hover:bg-white/90 dark:bg-neutral-900/80 dark:hover:bg-neutral-900/90"
           >
             {playing ? <MusicBarsIcon /> : <MusicMutedIcon />}

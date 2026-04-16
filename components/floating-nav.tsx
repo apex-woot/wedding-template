@@ -1,23 +1,38 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useTranslation } from "@/components/i18n-provider"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
-const sections = [
-  { id: "hero", label: "Головна" },
-  { id: "invitation", label: "Запрошення" },
-  { id: "date", label: "Дата" },
-  { id: "location", label: "Локація" },
-  { id: "program", label: "Програма" },
-  { id: "dress-code", label: "Дрес-код" },
-  { id: "rsvp", label: "RSVP" },
+const SECTION_IDS = [
+  "hero",
+  "invitation",
+  "date",
+  "location",
+  "program",
+  "dress-code",
+  "rsvp",
 ] as const
 
-type SectionId = (typeof sections)[number]["id"]
+type SectionId = (typeof SECTION_IDS)[number]
 
 export function FloatingNav() {
+  const { t } = useTranslation()
+  const sections = useMemo(
+    () =>
+      [
+        { id: "hero", label: t.nav.hero },
+        { id: "invitation", label: t.nav.invitation },
+        { id: "date", label: t.nav.date },
+        { id: "location", label: t.nav.location },
+        { id: "program", label: t.nav.program },
+        { id: "dress-code", label: t.nav.dressCode },
+        { id: "rsvp", label: t.nav.rsvp },
+      ] as const,
+    [t]
+  )
   const [activeSection, setActiveSection] = useState<SectionId>("hero")
   const [isVisible, setIsVisible] = useState(false)
   const [draggingId, setDraggingId] = useState<SectionId | null>(null)
@@ -35,8 +50,8 @@ export function FloatingNav() {
   }, [])
 
   useEffect(() => {
-    const sectionElements = sections
-      .map(({ id }) => ({ id, el: document.getElementById(id) }))
+    const sectionElements = SECTION_IDS
+      .map((id) => ({ id, el: document.getElementById(id) }))
       .filter((s): s is { id: SectionId; el: HTMLElement } => s.el !== null)
 
     if (!sectionElements.length) return
@@ -117,7 +132,7 @@ export function FloatingNav() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 24 }}
           transition={{ duration: 0.7, ease: easeOutExpo }}
-          aria-label="Навігація по сторінці"
+          aria-label={t.nav.aria}
           className="fixed right-4 top-1/2 z-50 -translate-y-1/2 md:right-7"
         >
           <div
@@ -140,7 +155,7 @@ export function FloatingNav() {
                     if (pointerMovedRef.current) e.preventDefault()
                   }}
                   className="group relative flex items-center gap-3 py-1.5 pl-3 -my-1.5 -ml-3"
-                  aria-label={`Перейти до ${label}`}
+                  aria-label={`${t.nav.goTo} ${label}`}
                 >
                   <span
                     className={`pointer-events-none absolute right-7 top-1/2 -translate-y-1/2 whitespace-nowrap overflow-hidden rounded-full bg-[#FCFBF8]/95 font-sans text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[#364274] backdrop-blur-md ring-1 ring-[#D8DED5]/60 transition-all duration-500 ${

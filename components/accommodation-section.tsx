@@ -3,56 +3,26 @@
 import { motion } from "framer-motion"
 import type { ComponentType } from "react"
 import { LuHotel, LuHouse, LuUser, LuUsers } from "react-icons/lu"
+import { useTranslation } from "@/components/i18n-provider"
+import type { Locale } from "@/lib/i18n"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 const phoneHref = "tel:+380685981328"
 const phoneLabel = "+38 (068) 598 13 28"
 
-type RoomOption = {
-  id: string
-  title: string
-  capacity: string
-  price: number
-  available: number
-  Icon: ComponentType<{ className?: string; strokeWidth?: number; "aria-hidden"?: boolean }>
-}
+const roomIcons: ComponentType<{
+  className?: string
+  strokeWidth?: number
+  "aria-hidden"?: boolean
+}>[] = [LuUser, LuUsers, LuHouse]
 
-const rooms: RoomOption[] = [
-  {
-    id: "double",
-    title: "Двомісний номер",
-    capacity: "на 2 особи",
-    price: 2500,
-    available: 6,
-    Icon: LuUser,
-  },
-  {
-    id: "triple",
-    title: "Тримісний номер",
-    capacity: "на 3 особи",
-    price: 2700,
-    available: 4,
-    Icon: LuUsers,
-  },
-  {
-    id: "house",
-    title: "Окремий будиночок",
-    capacity: "на 6 осіб",
-    price: 5000,
-    available: 1,
-    Icon: LuHouse,
-  },
-]
+const roomPrices = [2500, 2700, 5000] as const
+const roomAvailability = [6, 4, 1] as const
 
-const bookingSteps = [
-  "Зателефонуйте за номером нижче.",
-  "Скажіть, що ви гість на весілля родини Когутів.",
-  "Назвіть бажаний тип номера та дати проживання.",
-]
-
-function formatPrice(value: number): string {
-  return `${value.toLocaleString("uk-UA")} ₴`
+function formatPrice(value: number, locale: Locale): string {
+  const lang = locale === "en" ? "en-US" : "uk-UA"
+  return `${value.toLocaleString(lang)} ₴`
 }
 
 function AccommodationIcon() {
@@ -78,6 +48,8 @@ const itemVariants = {
 }
 
 export function AccommodationSection() {
+  const { t, locale } = useTranslation()
+
   return (
     <section
       aria-labelledby="accommodation-title"
@@ -103,7 +75,7 @@ export function AccommodationSection() {
           variants={itemVariants}
           className="font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.5em] text-[#583C2A]/45 mb-3"
         >
-          залишайтесь з нами
+          {t.accommodation.kicker}
         </motion.p>
 
         <motion.h2
@@ -111,36 +83,36 @@ export function AccommodationSection() {
           id="accommodation-title"
           className="font-display text-[clamp(2.7rem,8vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.03em] text-[#364274]"
         >
-          Проживання
+          {t.accommodation.title}
         </motion.h2>
 
         <motion.p
           variants={itemVariants}
           className="mx-auto mt-5 max-w-[36rem] text-balance font-sans text-[clamp(1rem,2.5vw,1.12rem)] leading-[1.85] font-light text-[#583C2A]"
         >
-          У Yavir Resort для гостей весілля доступні три типи номерів. Сніданок
-          включено у вартість.
+          {t.accommodation.intro}
         </motion.p>
 
         <motion.p
           variants={itemVariants}
           className="mx-auto mt-4 max-w-[34rem] text-balance font-sans text-[0.95rem] leading-[1.75] font-light italic text-[#583C2A]/70"
         >
-          Поправини відбудуться наступного дня на тій самій локації в заздалегідь
-          заброньованій альтанці.
+          {t.accommodation.porovinyNote}
         </motion.p>
 
         <motion.ul
           variants={itemVariants}
           className="mt-10 grid gap-4 text-left md:mt-12 md:grid-cols-3"
         >
-          {rooms.map((room) => {
-            const { Icon } = room
-            const soldOut = room.available <= 0
+          {t.accommodation.rooms.map((room, index) => {
+            const Icon = roomIcons[index] ?? LuUser
+            const available = roomAvailability[index] ?? 0
+            const price = roomPrices[index] ?? 0
+            const soldOut = available <= 0
 
             return (
               <li
-                key={room.id}
+                key={room.title}
                 className="group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-[#D8DED5]/70 bg-white/70 px-5 py-6 backdrop-blur-sm shadow-[0_14px_34px_-18px_rgba(88,60,42,0.22)] transition-all duration-500 hover:-translate-y-1 hover:bg-white hover:border-[#A8BCA1] hover:shadow-[0_22px_46px_-14px_rgba(88,60,42,0.28)]"
               >
                 <div className="flex items-start justify-between gap-3">
@@ -167,7 +139,7 @@ export function AccommodationSection() {
                         }
                       />
                     </span>
-                    {soldOut ? "немає" : `вільно ${room.available}`}
+                    {soldOut ? t.accommodation.soldOut : `${t.accommodation.available} ${available}`}
                   </div>
                 </div>
 
@@ -182,15 +154,15 @@ export function AccommodationSection() {
 
                 <div className="mt-auto flex items-baseline gap-1.5 pt-2">
                   <span className="font-display text-[1.75rem] font-medium tracking-[-0.01em] text-[#583C2A]">
-                    {formatPrice(room.price)}
+                    {formatPrice(price, locale)}
                   </span>
                   <span className="font-sans text-[0.78rem] text-[#583C2A]/60">
-                    / ніч
+                    {t.accommodation.perNight}
                   </span>
                 </div>
 
                 <p className="font-sans text-[0.78rem] text-[#583C2A]/60">
-                  Сніданок включено
+                  {t.accommodation.breakfast}
                 </p>
               </li>
             )
@@ -202,10 +174,10 @@ export function AccommodationSection() {
           className="mt-12 rounded-2xl border border-[#D8DED5]/70 bg-[#FCFBF8]/80 p-6 text-left md:p-8"
         >
           <p className="font-sans text-[0.62rem] md:text-[0.7rem] font-medium uppercase tracking-[0.35em] text-[#583C2A]/50">
-            як забронювати
+            {t.accommodation.howToBook}
           </p>
           <ol className="mt-4 grid gap-3">
-            {bookingSteps.map((step, index) => (
+            {t.accommodation.bookingSteps.map((step, index) => (
               <li
                 key={step}
                 className="flex items-start gap-3 font-sans text-[0.98rem] leading-[1.7] font-light text-[#583C2A]"
