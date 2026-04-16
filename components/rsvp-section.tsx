@@ -1,7 +1,8 @@
 "use client"
 
+import { AnimatePresence, motion } from "framer-motion"
 import { type FormEvent, Fragment, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useTranslation } from "@/components/i18n-provider"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -13,8 +14,16 @@ import {
   FieldTitle,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { useTranslation } from "@/components/i18n-provider"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import type { Dict } from "@/lib/i18n"
+import { buildGoogleCalendarUrl, downloadIcsFile } from "@/lib/rsvp-reminder"
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
@@ -52,14 +61,18 @@ const ERROR_CODES: readonly ErrorCode[] = [
 ] as const
 
 function toErrorCode(value: unknown): ErrorCode {
-  return typeof value === "string" && (ERROR_CODES as readonly string[]).includes(value)
+  return typeof value === "string" &&
+    (ERROR_CODES as readonly string[]).includes(value)
     ? (value as ErrorCode)
     : "generic"
 }
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.25 } },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.25 },
+  },
 }
 
 const itemVariants = {
@@ -170,6 +183,83 @@ export function RsvpSection() {
           >
             {t.rsvp.subtitle}
           </motion.p>
+          <motion.p
+            variants={itemVariants}
+            className="mx-auto mt-4 max-w-[32rem] text-balance font-sans text-[clamp(0.88rem,2.2vw,1rem)] leading-[1.8] text-[#583C2A]/80 font-light"
+          >
+            {t.rsvp.deadlineNote}
+          </motion.p>
+          <motion.div
+            variants={itemVariants}
+            className="mt-6 flex justify-center"
+          >
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#583C2A]/25 bg-white/60 px-5 py-2.5 font-sans text-[0.72rem] font-medium uppercase tracking-[0.22em] text-[#583C2A] backdrop-blur-sm transition-all duration-300 hover:border-[#583C2A]/60 hover:bg-white hover:text-[#364274] focus-visible:border-[#583C2A] focus-visible:outline-none"
+                >
+                  <svg
+                    aria-hidden="true"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect x="3" y="4.5" width="18" height="16.5" rx="2" />
+                    <path d="M3 9.5h18" />
+                    <path d="M8 3v3" />
+                    <path d="M16 3v3" />
+                    <path d="M12 13.5v4" />
+                    <path d="M10 15.5h4" />
+                  </svg>
+                  {t.rsvp.reminder.button}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="center"
+                className="w-[min(22rem,calc(100vw-2rem))] bg-[#FCFBF8] text-[#364274] ring-[#D8DED5]"
+              >
+                <PopoverHeader>
+                  <PopoverTitle className="font-display text-[1.05rem] font-medium tracking-[-0.01em] text-[#364274]">
+                    {t.rsvp.reminder.popoverTitle}
+                  </PopoverTitle>
+                  <PopoverDescription className="font-sans text-[0.8rem] leading-[1.5] text-[#583C2A]/70">
+                    {t.rsvp.reminder.popoverDescription}
+                  </PopoverDescription>
+                </PopoverHeader>
+                <div className="flex flex-col gap-2">
+                  <a
+                    href={buildGoogleCalendarUrl({
+                      title: t.rsvp.reminder.eventTitle,
+                      details: t.rsvp.reminder.eventDetails,
+                    })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-md border border-[#D8DED5] bg-white px-3 py-2 text-center font-sans text-[0.82rem] tracking-[0.04em] text-[#364274] transition-colors duration-300 hover:border-[#583C2A] hover:bg-[#583C2A]/[0.04]"
+                  >
+                    {t.rsvp.reminder.google}
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      downloadIcsFile({
+                        title: t.rsvp.reminder.eventTitle,
+                        details: t.rsvp.reminder.eventDetails,
+                      })
+                    }
+                    className="rounded-md border border-[#D8DED5] bg-white px-3 py-2 text-center font-sans text-[0.82rem] tracking-[0.04em] text-[#364274] transition-colors duration-300 hover:border-[#583C2A] hover:bg-[#583C2A]/[0.04]"
+                  >
+                    {t.rsvp.reminder.ics}
+                  </button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </motion.div>
         </div>
 
         <motion.div variants={itemVariants}>
@@ -247,10 +337,26 @@ export function RsvpSection() {
 
               <div className="mt-6 pt-10 border-t border-[#D8DED5]/55 grid gap-6">
                 {[
-                  { id: "attending", field: "attending" as const, label: t.rsvp.attending },
-                  { id: "hotel-booking", field: "hotelBooking" as const, label: t.rsvp.hotelBooking },
-                  { id: "transfer-needed", field: "transferNeeded" as const, label: t.rsvp.transferNeeded },
-                  { id: "attending-church", field: "attendingChurch" as const, label: t.rsvp.attendingChurch },
+                  {
+                    id: "attending",
+                    field: "attending" as const,
+                    label: t.rsvp.attending,
+                  },
+                  {
+                    id: "hotel-booking",
+                    field: "hotelBooking" as const,
+                    label: t.rsvp.hotelBooking,
+                  },
+                  {
+                    id: "transfer-needed",
+                    field: "transferNeeded" as const,
+                    label: t.rsvp.transferNeeded,
+                  },
+                  {
+                    id: "attending-church",
+                    field: "attendingChurch" as const,
+                    label: t.rsvp.attendingChurch,
+                  },
                 ].map(({ id, field, label }) => (
                   <Fragment key={id}>
                     <motion.div
@@ -258,7 +364,10 @@ export function RsvpSection() {
                       transition={{ duration: 0.3, ease: easeOutExpo }}
                     >
                       <Field orientation="horizontal" className="items-center">
-                        <FieldLabel htmlFor={id} className="text-[#583C2A] cursor-pointer flex items-center gap-4">
+                        <FieldLabel
+                          htmlFor={id}
+                          className="text-[#583C2A] cursor-pointer flex items-center gap-4"
+                        >
                           <Checkbox
                             id={id}
                             checked={form[field]}
@@ -294,7 +403,10 @@ export function RsvpSection() {
                               </legend>
                               <div className="grid gap-2 sm:grid-cols-3">
                                 {t.rsvp.roomOptions.map((option) => {
-                                  const value = option.value as Exclude<RoomType, "">
+                                  const value = option.value as Exclude<
+                                    RoomType,
+                                    ""
+                                  >
                                   const selected = form.roomType === value
                                   const inputId = `room-type-${value}`
                                   return (

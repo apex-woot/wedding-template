@@ -55,10 +55,14 @@ const uk = {
     mapTitle: "Маршрут на Google Maps до Yavir Resort",
   },
   program: {
-    kicker: "день за хвилинами",
+    kicker: "розклад дня",
     title: "Програма",
     items: [
-      { time: "11:30", title: "Шлюб", details: "Церква Святої Анни, вул. Городоцька, 32" },
+      {
+        time: "11:30",
+        title: "Шлюб",
+        details: "Церква Святої Анни, вул. Городоцька, 32",
+      },
       { time: "14:00", title: "Прибуття гостей до локації", details: "" },
       { time: "15:30", title: "Церемонія", details: "" },
       { time: "16:00", title: "Святковий банкет", details: "" },
@@ -69,24 +73,32 @@ const uk = {
     kicker: "палітра вечора",
     title: "Дрес-код",
     desc: "Ми будемо вдячні, якщо ви підтримаєте атмосферу свята та оберете вбрання у відповідній кольоровій гамі",
-    colors: ["небесний", "темно-синій", "теплий брунатний", "шавлія", "слонова кість"],
+    colors: [
+      "небесний",
+      "темно-синій",
+      "теплий брунатний",
+      "шавлія",
+      "слонова кість",
+    ],
   },
   gifts: {
-    kicker: "від щирого серця",
+    kicker: "про подарунки",
     title: "Наші побажання",
     p1: "Для нас найважливіше — це розділити з вами радість нашого дня.",
     p2: "Якщо ви хочете нас підтримати, будемо раді грошовому подарунку, який допоможе здійснити наші спільні мрії.",
   },
   transfer: {
-    kicker: "у дорозі",
+    kicker: "туди і назад",
     title: "Трансфер",
     desc: "Буде організовано трансфер від церкви Святої Анни до ресторану та назад до Львова після святкування.",
   },
   accommodation: {
     kicker: "залишайтесь з нами",
     title: "Проживання",
-    intro: "У Yavir Resort для гостей весілля доступні три типи номерів. Сніданок включено у вартість.",
-    porovinyNote: "Поправини відбудуться наступного дня на тій самій локації в заздалегідь заброньованій альтанці.",
+    intro:
+      "У Yavir Resort для гостей весілля доступні три типи номерів. Сніданок включено у вартість.",
+    porovinyNote:
+      "Поправини відбудуться наступного дня на тій самій локації в заздалегідь заброньованій альтанці.",
     rooms: [
       { title: "Двомісний номер", capacity: "на 2 особи" },
       { title: "Тримісний номер", capacity: "на 3 особи" },
@@ -106,6 +118,18 @@ const uk = {
   rsvp: {
     title: "Ваша відповідь",
     subtitle: "Будь ласка, заповніть одну форму на пару або сім\u2019ю.",
+    deadlineNote:
+      "Вам не обов\u2019язково відповідати зараз, якщо ви ще не впевнені, що зможете бути присутніми. Просимо повідомити нас не пізніше ніж за 4 тижні до події.",
+    reminder: {
+      button: "Додати нагадування в календар",
+      popoverTitle: "Оберіть календар",
+      popoverDescription: "Збережіть дату, щоб не забути відповісти.",
+      google: "Google Calendar",
+      ics: "Apple, Outlook (.ics)",
+      eventTitle: "Відповісти на весілля Віталія та Тетяни",
+      eventDetails:
+        "Нагадування підтвердити присутність на весіллі 11 липня 2026 року.",
+    },
     nameLabel: "Імена та прізвища",
     namePlaceholder: "Наприклад, Іван Когут та Марія Ковальчук",
     adults: "Кількість дорослих",
@@ -193,10 +217,14 @@ const en: Dict = {
     mapTitle: "Google Maps directions to Yavir Resort",
   },
   program: {
-    kicker: "moment by moment",
+    kicker: "the day\u2019s schedule",
     title: "Program",
     items: [
-      { time: "11:30", title: "Wedding ceremony", details: "Saint Anne\u2019s Church, 32 Horodotska St." },
+      {
+        time: "11:30",
+        title: "Wedding ceremony",
+        details: "Saint Anne\u2019s Church, 32 Horodotska St.",
+      },
       { time: "14:00", title: "Guests arrive at the venue", details: "" },
       { time: "15:30", title: "Ceremony", details: "" },
       { time: "16:00", title: "Reception", details: "" },
@@ -210,21 +238,23 @@ const en: Dict = {
     colors: ["sky", "deep blue", "warm brown", "sage", "ivory"],
   },
   gifts: {
-    kicker: "from the heart",
+    kicker: "about gifts",
     title: "Our wishes",
     p1: "What matters most to us is sharing the joy of this day with you.",
     p2: "If you\u2019d like to support us, a monetary gift that helps bring our shared dreams to life would mean the world.",
   },
   transfer: {
-    kicker: "on the way",
+    kicker: "there and back",
     title: "Transfer",
     desc: "We\u2019ll arrange a transfer from Saint Anne\u2019s Church to the venue, and back to Lviv after the celebration.",
   },
   accommodation: {
     kicker: "stay with us",
     title: "Accommodation",
-    intro: "Three room types are available for wedding guests at Yavir Resort. Breakfast is included.",
-    porovinyNote: "The day-after gathering will take place at the same venue, in a gazebo booked in advance.",
+    intro:
+      "Three room types are available for wedding guests at Yavir Resort. Breakfast is included.",
+    porovinyNote:
+      "The day-after gathering will take place at the same venue, in a gazebo booked in advance.",
     rooms: [
       { title: "Double room", capacity: "for 2 guests" },
       { title: "Triple room", capacity: "for 3 guests" },
@@ -244,6 +274,18 @@ const en: Dict = {
   rsvp: {
     title: "Your response",
     subtitle: "Please fill out one form per couple or family.",
+    deadlineNote:
+      "You don\u2019t have to reply right away if you\u2019re still unsure you can attend. Please let us know no later than 4 weeks before the event.",
+    reminder: {
+      button: "Add reminder to calendar",
+      popoverTitle: "Choose calendar",
+      popoverDescription: "Save the date so you don\u2019t forget to reply.",
+      google: "Google Calendar",
+      ics: "Apple, Outlook (.ics)",
+      eventTitle: "RSVP to Vitalii & Tetiana\u2019s wedding",
+      eventDetails:
+        "Reminder to confirm attendance at the wedding on July 11, 2026.",
+    },
     nameLabel: "Names and surnames",
     namePlaceholder: "E.g., Ivan Kohut and Mariia Kovalchuk",
     adults: "Adults",
