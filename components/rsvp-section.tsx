@@ -28,10 +28,12 @@ import { buildGoogleCalendarUrl, downloadIcsFile } from "@/lib/rsvp-reminder"
 const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 type RoomType = "" | "double" | "triple" | "house"
+type PartyType = "single" | "couple" | "family"
 type ErrorCode = keyof Dict["rsvp"]["errors"]
 
 type RsvpFormState = {
   familySurname: string
+  partyType: PartyType
   attending: boolean
   hotelBooking: boolean
   childrenCount: number
@@ -41,8 +43,11 @@ type RsvpFormState = {
   roomType: RoomType
 }
 
+const PARTY_TYPES: readonly PartyType[] = ["single", "couple", "family"] as const
+
 const initialState: RsvpFormState = {
   familySurname: "",
+  partyType: "couple",
   attending: false,
   hotelBooking: false,
   childrenCount: 0,
@@ -112,6 +117,20 @@ export function RsvpSection() {
       ...current,
       [field]: Number.isFinite(parsed) && parsed >= 0 ? parsed : 0,
     }))
+  }
+
+  function setPartyType(next: PartyType) {
+    setForm((current) => {
+      if (next === "single")
+        return { ...current, partyType: next, adultsCount: 1, childrenCount: 0 }
+      if (next === "couple")
+        return { ...current, partyType: next, adultsCount: 2, childrenCount: 0 }
+      return {
+        ...current,
+        partyType: next,
+        adultsCount: Math.max(current.adultsCount, 2),
+      }
+    })
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -268,12 +287,63 @@ export function RsvpSection() {
             onSubmit={handleSubmit}
           >
             <FieldGroup className="gap-10">
+              <fieldset className="border-0 p-0">
+                <legend className="mb-3 font-sans text-[0.62rem] font-medium uppercase tracking-[0.18em] text-[#583C2A]">
+                  {t.rsvp.partyType.label}
+                </legend>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {PARTY_TYPES.map((value) => {
+                    const selected = form.partyType === value
+                    const inputId = `party-type-${value}`
+                    const option = t.rsvp.partyType[value]
+                    return (
+                      <label
+                        key={value}
+                        htmlFor={inputId}
+                        className={
+                          selected
+                            ? "flex cursor-pointer flex-col items-start rounded-xl border border-[#583C2A] bg-[#583C2A]/[0.06] px-4 py-3 text-left shadow-[0_10px_24px_-14px_rgba(88,60,42,0.35)] transition-all duration-300"
+                            : "flex cursor-pointer flex-col items-start rounded-xl border border-[#D8DED5] bg-white/70 px-4 py-3 text-left transition-all duration-300 hover:border-[#A8BCA1] hover:bg-white"
+                        }
+                      >
+                        <input
+                          id={inputId}
+                          type="radio"
+                          name="partyType"
+                          value={value}
+                          checked={selected}
+                          onChange={() => {
+                            setPartyType(value)
+                            setSubmitted(false)
+                          }}
+                          className="sr-only"
+                        />
+                        <span
+                          className={
+                            selected
+                              ? "font-display text-[1.05rem] font-medium tracking-[-0.01em] text-[#364274]"
+                              : "font-display text-[1.05rem] font-medium tracking-[-0.01em] text-[#583C2A]"
+                          }
+                        >
+                          {option.title}
+                        </span>
+                        <span className="font-sans text-[0.72rem] tracking-[0.08em] text-[#583C2A]/60">
+                          {option.description}
+                        </span>
+                      </label>
+                    )
+                  })}
+                </div>
+              </fieldset>
+
               <Field>
                 <FieldLabel
                   htmlFor="family-surname"
                   className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
                 >
-                  {t.rsvp.nameLabel}
+                  {form.partyType === "single"
+                    ? t.rsvp.nameLabelSingle
+                    : t.rsvp.nameLabel}
                 </FieldLabel>
                 <Input
                   id="family-surname"
@@ -286,54 +356,71 @@ export function RsvpSection() {
                     }))
                     setSubmitted(false)
                   }}
-                  placeholder={t.rsvp.namePlaceholder}
+                  placeholder={
+                    form.partyType === "single"
+                      ? t.rsvp.namePlaceholderSingle
+                      : t.rsvp.namePlaceholder
+                  }
                   className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] placeholder:text-[#A8BCA1]/55 transition-colors duration-500"
                 />
               </Field>
 
-              <div className="grid gap-10 md:grid-cols-2">
-                <Field>
-                  <FieldLabel
-                    htmlFor="adults-count"
-                    className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
+              <AnimatePresence initial={false}>
+                {form.partyType === "family" && (
+                  <motion.div
+                    key="counts"
+                    initial={{ opacity: 0, height: 0, y: -6 }}
+                    animate={{ opacity: 1, height: "auto", y: 0 }}
+                    exit={{ opacity: 0, height: 0, y: -6 }}
+                    transition={{ duration: 0.45, ease: easeOutExpo }}
+                    className="overflow-hidden"
                   >
-                    {t.rsvp.adults}
-                  </FieldLabel>
-                  <Input
-                    id="adults-count"
-                    type="number"
-                    min="1"
-                    max="20"
-                    value={form.adultsCount}
-                    onChange={(event) => {
-                      setNumberField("adultsCount", event.target.value)
-                      setSubmitted(false)
-                    }}
-                    className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] transition-colors duration-500 text-center"
-                  />
-                </Field>
+                    <div className="grid gap-10 md:grid-cols-2">
+                      <Field>
+                        <FieldLabel
+                          htmlFor="adults-count"
+                          className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
+                        >
+                          {t.rsvp.adults}
+                        </FieldLabel>
+                        <Input
+                          id="adults-count"
+                          type="number"
+                          min="1"
+                          max="20"
+                          value={form.adultsCount}
+                          onChange={(event) => {
+                            setNumberField("adultsCount", event.target.value)
+                            setSubmitted(false)
+                          }}
+                          className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] transition-colors duration-500 text-center"
+                        />
+                      </Field>
 
-                <Field>
-                  <FieldLabel
-                    htmlFor="children-count"
-                    className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
-                  >
-                    {t.rsvp.children}
-                  </FieldLabel>
-                  <Input
-                    id="children-count"
-                    type="number"
-                    min="0"
-                    max="20"
-                    value={form.childrenCount}
-                    onChange={(event) => {
-                      setNumberField("childrenCount", event.target.value)
-                      setSubmitted(false)
-                    }}
-                    className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] transition-colors duration-500 text-center"
-                  />
-                </Field>
-              </div>
+                      <Field>
+                        <FieldLabel
+                          htmlFor="children-count"
+                          className="text-[#583C2A] font-medium tracking-[0.18em] text-[0.62rem] uppercase mb-1"
+                        >
+                          {t.rsvp.children}
+                        </FieldLabel>
+                        <Input
+                          id="children-count"
+                          type="number"
+                          min="0"
+                          max="20"
+                          value={form.childrenCount}
+                          onChange={(event) => {
+                            setNumberField("childrenCount", event.target.value)
+                            setSubmitted(false)
+                          }}
+                          className="h-12 rounded-none border-0 border-b border-[#D8DED5] bg-transparent px-0 text-[1.1rem] text-[#364274] focus-visible:ring-0 focus-visible:border-[#583C2A] transition-colors duration-500 text-center"
+                        />
+                      </Field>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <div className="mt-6 pt-10 border-t border-[#D8DED5]/55 grid gap-6">
                 {[

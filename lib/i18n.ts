@@ -117,7 +117,8 @@ const uk = {
   },
   rsvp: {
     title: "Ваша відповідь",
-    subtitle: "Будь ласка, заповніть одну форму на пару або сім\u2019ю.",
+    subtitle:
+      "Будь ласка, заповніть одну форму на особу, пару або сім\u2019ю.",
     deadlineNote:
       "Вам не обов\u2019язково відповідати зараз, якщо ви ще не впевнені, що зможете бути присутніми. Просимо повідомити нас не пізніше ніж за 4 тижні до події.",
     reminder: {
@@ -130,8 +131,16 @@ const uk = {
       eventDetails:
         "Нагадування підтвердити присутність на весіллі 11 липня 2026 року.",
     },
+    partyType: {
+      label: "Хто відповідає",
+      single: { title: "Одна особа", description: "сам / сама" },
+      couple: { title: "Пара", description: "двоє" },
+      family: { title: "Сім\u2019я", description: "з дітьми" },
+    },
     nameLabel: "Імена та прізвища",
+    nameLabelSingle: "Ім\u2019я та прізвище",
     namePlaceholder: "Наприклад, Іван Когут та Марія Ковальчук",
+    namePlaceholderSingle: "Наприклад, Іван Когут",
     adults: "Кількість дорослих",
     children: "Кількість дітей",
     attending: "Ми будемо присутні",
@@ -273,7 +282,7 @@ const en: Dict = {
   },
   rsvp: {
     title: "Your response",
-    subtitle: "Please fill out one form per couple or family.",
+    subtitle: "Please fill out one form per person, couple, or family.",
     deadlineNote:
       "You don\u2019t have to reply right away if you\u2019re still unsure you can attend. Please let us know no later than 4 weeks before the event.",
     reminder: {
@@ -286,8 +295,16 @@ const en: Dict = {
       eventDetails:
         "Reminder to confirm attendance at the wedding on July 11, 2026.",
     },
+    partyType: {
+      label: "Who is replying",
+      single: { title: "Single", description: "just me" },
+      couple: { title: "Couple", description: "the two of us" },
+      family: { title: "Family", description: "with children" },
+    },
     nameLabel: "Names and surnames",
+    nameLabelSingle: "Name and surname",
     namePlaceholder: "E.g., Ivan Kohut and Mariia Kovalchuk",
+    namePlaceholderSingle: "E.g., Ivan Kohut",
     adults: "Adults",
     children: "Children",
     attending: "We\u2019ll be there",
