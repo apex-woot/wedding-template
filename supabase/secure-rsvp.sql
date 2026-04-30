@@ -45,7 +45,7 @@ begin
   end if;
 
   select count(*) into total_count from rsvp;
-  if total_count >= 100 then
+  if total_count >= 200 then
     return 'error';
   end if;
 
